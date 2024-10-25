@@ -9,5 +9,7 @@ import com.advocacia.entities.Cliente;
 public interface ClienteRepository extends JpaRepository<Cliente, Integer> {
 	
 	Optional<Cliente> findById(Integer id);
+
+	Optional<Cliente> findByNome(String nome);
 	
 }

@@ -1,6 +1,7 @@
 package com.advocacia.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,10 @@ public class ConsultaService {
 	public Consulta save(Consulta consulta) {
         return consultaRepository.save(consulta);
     }
+
+	public Optional<Consulta> findById(Integer id) {
+		return consultaRepository.findById(id);
+	}
 	
 	//Implementar findByData
 	

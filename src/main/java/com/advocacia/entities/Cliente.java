@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.Objects;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -38,6 +40,9 @@ public class Cliente {
 	private String cnh;
 	
 	private Date data_nascimento;
+	
+	@Enumerated(EnumType.STRING)
+	private Status status = Status.ATIVO;
 	
 	@OneToOne
 	@JoinColumn(name = "usuario_id")
@@ -137,6 +142,14 @@ public class Cliente {
 
 	public void setData_nascimento(Date data_nascimento) {
 		this.data_nascimento = data_nascimento;
+	}
+
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
 	}
 
 	public Usuario getUsuario() {

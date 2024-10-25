@@ -15,7 +15,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 
 @Entity
 public class Usuario {
@@ -29,7 +28,7 @@ public class Usuario {
 	private String password;
 
 	@Enumerated(EnumType.STRING) // Usando EnumType.STRING para armazenar o nome do enum
-    private Status status;
+	private Status status = Status.ATIVO;
 	
 	@ManyToOne
     @JoinColumn(name = "tipo_usuario_id", nullable = false)

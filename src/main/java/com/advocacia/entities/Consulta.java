@@ -3,7 +3,7 @@ package com.advocacia.entities;
 import java.util.Date;
 import java.util.Objects;
 
-import com.advocacia.dto.ClienteDTO;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -21,12 +21,15 @@ public class Consulta {
 	
 	private Double valor;
 	
+	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
 	private Date data_marcada;
 	
+	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
 	private Date data_realizada;
 	
 	private String pagamento;
 	
+	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
 	private Date data_pagamento;
 	
 	private String meio_pagamento;

@@ -54,7 +54,7 @@ public class CustomExceptionHandler {
     }
     
     @ExceptionHandler(ConsultaErrorException.class)
-    public ResponseEntity<Map<String, String>> handleUsuarioError(ConsultaErrorException ex) {
+    public ResponseEntity<Map<String, String>> handleConsultaError(ConsultaErrorException ex) {
 		Map<String, String> response = new HashMap<>();
 	    response.put("error", "Erro na Consulta");
 	    response.put("message", ex.getMessage());
