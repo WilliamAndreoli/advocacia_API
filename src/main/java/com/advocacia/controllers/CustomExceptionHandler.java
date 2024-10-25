@@ -13,6 +13,7 @@ import com.advocacia.exceptions.ClienteErrorException;
 import com.advocacia.exceptions.ConsultaErrorException;
 import com.advocacia.exceptions.JWTTokenException;
 import com.advocacia.exceptions.LoginErrorException;
+import com.advocacia.exceptions.ProcessoErrorException;
 import com.advocacia.exceptions.UsuarioErrorException;
 import com.advocacia.exceptions.UsuarioNotFoundException;
 
@@ -67,7 +68,7 @@ public class CustomExceptionHandler {
     @ExceptionHandler(ClienteErrorException.class)
     public ResponseEntity<Map<String, String>> handleConsultaError(ClienteErrorException ex) {
 		Map<String, String> response = new HashMap<>();
-	    response.put("error", "Erro na Cliente");
+	    response.put("error", "Erro no Cliente");
 	    response.put("message", ex.getMessage());
 
 	    return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
@@ -76,7 +77,16 @@ public class CustomExceptionHandler {
     @ExceptionHandler(AdvogadoErrorException.class)
     public ResponseEntity<Map<String, String>> handleConsultaError(AdvogadoErrorException ex) {
 		Map<String, String> response = new HashMap<>();
-	    response.put("error", "Erro na Cliente");
+	    response.put("error", "Erro no Advogado");
+	    response.put("message", ex.getMessage());
+
+	    return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+    
+    @ExceptionHandler(ProcessoErrorException.class)
+    public ResponseEntity<Map<String, String>> handleConsultaError(ProcessoErrorException ex) {
+		Map<String, String> response = new HashMap<>();
+	    response.put("error", "Erro no Processo");
 	    response.put("message", ex.getMessage());
 
 	    return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
