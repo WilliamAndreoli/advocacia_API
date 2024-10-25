@@ -7,6 +7,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class Consulta {
@@ -28,6 +30,10 @@ public class Consulta {
 	private String meio_pagamento;
 	
 	private String resumo;
+	
+	@OneToOne
+	@JoinColumn(name = "cliente_id")
+	private Cliente cliente;
 
 	public Integer getId() {
 		return id;
@@ -91,6 +97,14 @@ public class Consulta {
 
 	public void setResumo(String resumo) {
 		this.resumo = resumo;
+	}
+	
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
 	}
 
 	@Override

@@ -15,6 +15,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class Usuario {
@@ -33,7 +34,7 @@ public class Usuario {
 	@ManyToOne
     @JoinColumn(name = "tipo_usuario_id", nullable = false)
 	private Tipo_Usuario tipo_Usuario;
-	
+
 	public Integer getId() {
 		return id;
 	}
