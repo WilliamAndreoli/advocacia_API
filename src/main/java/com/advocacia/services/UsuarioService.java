@@ -79,13 +79,13 @@ public class UsuarioService {
         usuarioRepository.deleteByUsername(username);
     }
 
-    public List<UsuarioDTO> findByUsername(String username) {
+    public List<UsuarioDTO> findByAllUsername(String username) {
         return usuarioRepository.findAllByUsername(username).stream()
             .map(this::convertToDto)
             .collect(Collectors.toList());
     }
     
-    public UsuarioDTO findByEmail(String username) {
+    public UsuarioDTO findByUsername(String username) {
         Usuario usuario = usuarioRepository.findByUsername(username);
         if (usuario != null) {
             return convertToDto(usuario);

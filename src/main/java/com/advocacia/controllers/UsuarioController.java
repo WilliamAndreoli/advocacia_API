@@ -51,9 +51,9 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioDto);
     }
     
-    @GetMapping("/email/{email}")
-    public ResponseEntity<UsuarioNoPassDTO> findByEmail(@PathVariable String email) {
-        UsuarioNoPassDTO usuarioDto = usuarioService.findByUsernameNoPass(email);
+    @GetMapping("/username/{username}")
+    public ResponseEntity<UsuarioNoPassDTO> findByUsername(@PathVariable String username) {
+        UsuarioNoPassDTO usuarioDto = usuarioService.findByUsernameNoPass(username);
         if (usuarioDto == null) {
             return ResponseEntity.notFound().build();
         }
@@ -76,9 +76,9 @@ public class UsuarioController {
         return ResponseEntity.ok(savedUsuario);
     }
 
-    @PutMapping("email/{email}")
-    public ResponseEntity<UsuarioNoPassDTO> updateUsuario(@PathVariable String email, @RequestBody UsuarioDTO usuarioDTO) {
-        UsuarioDTO usuario = usuarioService.findByEmail(email);
+    @PutMapping("username/{username}")
+    public ResponseEntity<UsuarioNoPassDTO> updateUsuario(@PathVariable String username, @RequestBody UsuarioDTO usuarioDTO) {
+        UsuarioDTO usuario = usuarioService.findByUsername(username);
         if (usuario == null) {
             return ResponseEntity.notFound().build();
         }
@@ -90,25 +90,25 @@ public class UsuarioController {
     }
     
     @PutMapping("status/{username}")
-    public ResponseEntity<UsuarioNoPassDTO> alteraStatus(@PathVariable String email, @RequestBody UsuarioDTO usuarioDTO) {
-    	UsuarioDTO usuario = usuarioService.findByEmail(email);
+    public ResponseEntity<UsuarioNoPassDTO> alteraStatus(@PathVariable String username, @RequestBody UsuarioDTO usuarioDTO) {
+    	UsuarioDTO usuario = usuarioService.findByUsername(username);
     	if (usuario == null) {
             return ResponseEntity.notFound().build();
         }
     	
     	usuario.setStatus(usuarioDTO.getStatus());
     	
-        UsuarioNoPassDTO updatedUsuario = usuarioService.alteraStatus(usuario.getStatus(), email);
+        UsuarioNoPassDTO updatedUsuario = usuarioService.alteraStatus(usuario.getStatus(), username);
         return ResponseEntity.ok(updatedUsuario);
     }
 
     @DeleteMapping("/username/{username}")
-    public ResponseEntity<Void> deleteUsuarioByUsername(@PathVariable String email) {
-        UsuarioDTO usuario = usuarioService.findByEmail(email);
+    public ResponseEntity<Void> deleteUsuarioByUsername(@PathVariable String username) {
+        UsuarioDTO usuario = usuarioService.findByUsername(username);
         if (usuario == null) {
             return ResponseEntity.notFound().build();
         }
-        usuarioService.deleteByUsername(email);
+        usuarioService.deleteByUsername(username);
         return ResponseEntity.noContent().build();
     }
 }
