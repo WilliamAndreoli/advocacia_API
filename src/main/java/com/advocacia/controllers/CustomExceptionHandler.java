@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.advocacia.exceptions.AdvogadoErrorException;
 import com.advocacia.exceptions.ClienteErrorException;
 import com.advocacia.exceptions.ConsultaErrorException;
 import com.advocacia.exceptions.JWTTokenException;
@@ -65,6 +66,15 @@ public class CustomExceptionHandler {
     
     @ExceptionHandler(ClienteErrorException.class)
     public ResponseEntity<Map<String, String>> handleConsultaError(ClienteErrorException ex) {
+		Map<String, String> response = new HashMap<>();
+	    response.put("error", "Erro na Cliente");
+	    response.put("message", ex.getMessage());
+
+	    return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+    
+    @ExceptionHandler(AdvogadoErrorException.class)
+    public ResponseEntity<Map<String, String>> handleConsultaError(AdvogadoErrorException ex) {
 		Map<String, String> response = new HashMap<>();
 	    response.put("error", "Erro na Cliente");
 	    response.put("message", ex.getMessage());
