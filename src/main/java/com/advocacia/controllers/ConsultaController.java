@@ -20,7 +20,6 @@ import com.advocacia.dto.ClienteDTO;
 import com.advocacia.dto.ConsultaDTO;
 import com.advocacia.entities.Cliente;
 import com.advocacia.entities.Consulta;
-import com.advocacia.exceptions.ConsultaErrorException;
 import com.advocacia.services.ClienteService;
 import com.advocacia.services.ConsultaService;
 
@@ -53,9 +52,9 @@ public class ConsultaController {
 	public ResponseEntity<List<ConsultaDTO>> findAllConsultaCliente(@PathVariable String nomecliente) {
 		Optional<Cliente> verificaCliente = clienteService.findByNome(nomecliente);
 		
-		if (verificaCliente.get() == null) {
-			return ResponseEntity.notFound().build();
-		}
+		if (!verificaCliente.isPresent()) {
+	        return ResponseEntity.notFound().build();
+	    }
 		
 		Cliente existingCliente = verificaCliente.get();
 		

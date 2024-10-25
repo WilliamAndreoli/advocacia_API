@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.advocacia.dto.UsuarioDTO;
-import com.advocacia.dto.UsuarioNoPassDTO;
 import com.advocacia.entities.Cliente;
 import com.advocacia.entities.Status;
 import com.advocacia.entities.Tipo_Usuario;
 import com.advocacia.entities.Usuario;
+import com.advocacia.exceptions.ClienteErrorException;
 import com.advocacia.exceptions.UsuarioErrorException;
 import com.advocacia.services.ClienteService;
 import com.advocacia.services.Tipo_UsuarioService;
@@ -47,48 +47,68 @@ public class ClienteController {
 	//Resolver retorno de cliente com todos os atributos
 	@PostMapping
 	public Cliente createCliente(@RequestBody Cliente cliente) {
-        return clienteService.save(cliente);
-    }
-	
-	@PutMapping("/nome/{nome}")
-	public ResponseEntity<Cliente> updateCliente(@PathVariable String nome, @RequestBody Cliente clienteDetails) {
+        
+		Cliente verificaCpfCliente = clienteService.findByCpf(cliente.getCpf());
 		
-		Optional<Cliente> cliente = clienteService.findByNome(nome);
+		Cliente verificaRgCliente = clienteService.findByRg(cliente.getRg());
 		
-		if (cliente.get() == null) {
-			return ResponseEntity.notFound().build();
+		Cliente verificaEmailCliente = clienteService.findByEmail(cliente.getEmail());
+		
+		if(verificaCpfCliente != null) {
+			throw new ClienteErrorException("Já existe um Cliente cadastrado com esse CPF " + verificaCpfCliente.getCpf());
 		}
 		
-		Cliente existingCliente = cliente.get();
+		if(verificaRgCliente != null) {
+			throw new ClienteErrorException("Já existe um Cliente cadastrado com esse RG " + verificaRgCliente.getRg());
+		}
 		
-		existingCliente.setNome(clienteDetails.getNome());
-		existingCliente.setEmail(clienteDetails.getEmail());
-		existingCliente.setCpf(clienteDetails.getCpf());
-		existingCliente.setRg(clienteDetails.getRg());
-		existingCliente.setTelefone(clienteDetails.getTelefone());
-		existingCliente.setEndereco(clienteDetails.getEndereco());
-		existingCliente.setNome_pai(clienteDetails.getNome_pai());
-		existingCliente.setNome_mae(clienteDetails.getNome_mae());
-		existingCliente.setCtps(clienteDetails.getCtps());
-		existingCliente.setCnh(clienteDetails.getCnh());
-		existingCliente.setData_nascimento(clienteDetails.getData_nascimento());
+		if(verificaEmailCliente != null) {
+			throw new ClienteErrorException("Já existe um Cliente cadastrado com esse E-mail " + verificaEmailCliente.getEmail());
+		}
 		
-		return ResponseEntity.ok(existingCliente);
+		return clienteService.save(cliente);
+    }
+	
+	@PutMapping("/cpf/{cpf}")
+	public ResponseEntity<Cliente> updateCliente(@PathVariable String cpf, @RequestBody Cliente clienteDetails) {
+		
+		Cliente cliente = clienteService.findByCpf(cpf);
+		
+		if (cliente == null) {
+			throw new ClienteErrorException("Cliente não encontrado com esse CPF: " + cpf);
+		}
+		
+		Cliente updateCliente = new Cliente();
+		
+		updateCliente.setId(cliente.getId());
+		updateCliente.setNome(clienteDetails.getNome());
+		updateCliente.setEmail(clienteDetails.getEmail());
+		updateCliente.setCpf(clienteDetails.getCpf());
+		updateCliente.setRg(clienteDetails.getRg());
+		updateCliente.setTelefone(clienteDetails.getTelefone());
+		updateCliente.setEndereco(clienteDetails.getEndereco());
+		updateCliente.setNome_pai(clienteDetails.getNome_pai());
+		updateCliente.setNome_mae(clienteDetails.getNome_mae());
+		updateCliente.setCtps(clienteDetails.getCtps());
+		updateCliente.setCnh(clienteDetails.getCnh());
+		updateCliente.setData_nascimento(clienteDetails.getData_nascimento());
+		
+		clienteService.updateCliente(updateCliente);
+		
+		return ResponseEntity.ok(updateCliente);
 		
 	}
 	
-	@PutMapping("status/{nome}")
-    public ResponseEntity<Cliente> alteraStatus(@PathVariable String nome, @RequestBody Cliente clienteDetails) {
-    	Optional<Cliente> cliente = clienteService.findByNome(nome);
+	@PutMapping("status/{cpf}")
+    public ResponseEntity<Cliente> alteraStatus(@PathVariable String cpf, @RequestBody Cliente clienteDetails) {
+    	Cliente cliente = clienteService.findByCpf(cpf);
     	if (cliente == null) {
-            return ResponseEntity.notFound().build();
+            throw new ClienteErrorException("Cliente não encontrado com o CPF: " + cpf);
         }
     	
-    	Cliente existingCliente = cliente.get();
+    	cliente.setStatus(clienteDetails.getStatus());
     	
-    	existingCliente.setStatus(clienteDetails.getStatus());
-    	
-        Cliente updatedCliente = clienteService.alteraStatus(existingCliente.getStatus(), nome);
+        Cliente updatedCliente = clienteService.alteraStatus(cliente.getStatus(), cpf);
         return ResponseEntity.ok(updatedCliente);
     }
 	

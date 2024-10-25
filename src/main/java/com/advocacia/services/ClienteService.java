@@ -41,15 +41,29 @@ public class ClienteService {
 		return clienteRepository.findByNome(nome);
 	}
 
-	public Cliente alteraStatus(Status status, String nome) {
-		Optional<Cliente> verificaCliente = clienteRepository.findByNome(nome);
-		
-		Cliente cliente = verificaCliente.get();
+	public Cliente alteraStatus(Status status, String cpf) {
+		Cliente cliente = clienteRepository.findByCpf(cpf);
 		
 		cliente.setStatus(status);
 		
 		Cliente savedCliente = clienteRepository.save(cliente);
 		return savedCliente;
+	}
+
+	public Cliente findByCpf(String cpf) {
+		return clienteRepository.findByCpf(cpf);
+	}
+
+	public Cliente findByRg(String rg) {
+		return clienteRepository.findByRg(rg);
+	}
+
+	public Cliente findByEmail(String email) {
+		return clienteRepository.findByEmail(email);
+	}
+
+	public Cliente updateCliente(Cliente cliente) {
+		return clienteRepository.save(cliente);
 	}
 	
 }
