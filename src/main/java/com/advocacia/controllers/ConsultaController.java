@@ -49,6 +49,28 @@ public class ConsultaController {
 	    return ResponseEntity.ok(consultaDTOs);
 	}
 	
+	@GetMapping("/cliente/{nomecliente}")
+	public ResponseEntity<List<ConsultaDTO>> findAllConsultaCliente(@PathVariable String nomecliente) {
+		Optional<Cliente> verificaCliente = clienteService.findByNome(nomecliente);
+		
+		if (verificaCliente.get() == null) {
+			return ResponseEntity.notFound().build();
+		}
+		
+		Cliente existingCliente = verificaCliente.get();
+		
+		List<Consulta> consultas = consultaService.findAllConsultaCliente(existingCliente.getId());
+	    List<ConsultaDTO> consultaDTOs = consultas.stream().map(consulta -> {
+	        Cliente cliente = consulta.getCliente(); // Supondo que você tenha um método getCliente()
+	        ClienteDTO clienteDTO = new ClienteDTO(cliente.getId(), cliente.getNome());
+	        return new ConsultaDTO(consulta.getId(), consulta.getValor(), consulta.getData_marcada(),
+	                consulta.getData_realizada(), consulta.getPagamento(), consulta.getData_pagamento(),
+	                consulta.getMeio_pagamento(), consulta.getResumo(), clienteDTO);
+	    }).collect(Collectors.toList());
+	    
+	    return ResponseEntity.ok(consultaDTOs);
+	}
+	
 	@PostMapping
 	public ResponseEntity<ConsultaDTO> createConsulta(@RequestBody Consulta consulta) {
 		Consulta novaConsulta = consultaService.save(consulta);

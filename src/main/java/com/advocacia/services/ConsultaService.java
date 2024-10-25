@@ -26,6 +26,10 @@ public class ConsultaService {
 	public Optional<Consulta> findById(Integer id) {
 		return consultaRepository.findById(id);
 	}
+
+	public List<Consulta> findAllConsultaCliente(Integer idCliente) {
+		return consultaRepository.findAllConsultaCliente(idCliente);
+	}
 	
 	//Implementar findByData
 	

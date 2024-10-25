@@ -48,15 +48,14 @@ public class WebSecurityConfig {
 			.exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
 			.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 			.authorizeHttpRequests(auth -> auth.requestMatchers("/auth/**").permitAll()
-							.requestMatchers(HttpMethod.POST,"/usuarios/**").permitAll()
 							.requestMatchers(HttpMethod.GET,"/usuarios/**").hasRole("ADMIN")
 							.requestMatchers(HttpMethod.POST,"/usuarios/**").hasRole("ADMIN")
 							.requestMatchers(HttpMethod.PUT,"/usuarios/**").hasRole("ADMIN")
 							.requestMatchers(HttpMethod.DELETE,"/usuarios/**").hasRole("ADMIN")
-							.requestMatchers(HttpMethod.GET,"/consultas/**").hasRole("ADVOGADO")
-							.requestMatchers(HttpMethod.POST,"/consultas/**").hasRole("ADVOGADO")
-							.requestMatchers(HttpMethod.GET,"/clientes/**").hasRole("ADVOGADO")
-							.requestMatchers(HttpMethod.POST,"/clientes/**").hasRole("ADVOGADO")
+							.requestMatchers(HttpMethod.GET,"/consultas/**").hasAnyRole("ADVOGADO", "ADMIN")
+							.requestMatchers(HttpMethod.POST,"/consultas/**").hasAnyRole("ADVOGADO", "ADMIN")
+							.requestMatchers(HttpMethod.GET,"/clientes/**").hasAnyRole("ADVOGADO", "ADMIN")
+							.requestMatchers(HttpMethod.POST,"/clientes/**").hasAnyRole("ADVOGADO", "ADMIN")
 							.anyRequest().authenticated());
 		
 		http.addFilterBefore(authFilterToken(), UsernamePasswordAuthenticationFilter.class);
