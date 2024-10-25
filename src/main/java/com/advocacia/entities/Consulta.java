@@ -3,6 +3,8 @@ package com.advocacia.entities;
 import java.util.Date;
 import java.util.Objects;
 
+import com.advocacia.dto.ClienteDTO;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -34,6 +36,22 @@ public class Consulta {
 	@OneToOne
 	@JoinColumn(name = "cliente_id")
 	private Cliente cliente;
+
+	public Consulta() {}
+
+	public Consulta(Integer id, Double valor, Date data_marcada, Date data_realizada, String pagamento,
+			Date data_pagamento, String meio_pagamento, String resumo, Cliente cliente) {
+		super();
+		this.id = id;
+		this.valor = valor;
+		this.data_marcada = data_marcada;
+		this.data_realizada = data_realizada;
+		this.pagamento = pagamento;
+		this.data_pagamento = data_pagamento;
+		this.meio_pagamento = meio_pagamento;
+		this.resumo = resumo;
+		this.cliente = cliente;
+	}
 
 	public Integer getId() {
 		return id;
