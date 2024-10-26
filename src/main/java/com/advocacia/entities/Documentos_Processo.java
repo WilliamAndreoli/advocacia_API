@@ -2,6 +2,8 @@ package com.advocacia.entities;
 
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -25,6 +27,7 @@ public class Documentos_Processo {
 
 	@ManyToOne
     @JoinColumn(name = "processo_id", nullable = false)
+	@JsonBackReference
     private Processo processo;
 	
 	public Integer getId() {

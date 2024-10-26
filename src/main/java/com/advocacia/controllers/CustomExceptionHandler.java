@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import com.advocacia.exceptions.AdvogadoErrorException;
 import com.advocacia.exceptions.ClienteErrorException;
 import com.advocacia.exceptions.ConsultaErrorException;
+import com.advocacia.exceptions.Documentos_ProcessoErrorException;
 import com.advocacia.exceptions.JWTTokenException;
 import com.advocacia.exceptions.LoginErrorException;
 import com.advocacia.exceptions.ProcessoErrorException;
@@ -92,5 +93,13 @@ public class CustomExceptionHandler {
 	    return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
     
+    @ExceptionHandler(Documentos_ProcessoErrorException.class)
+    public ResponseEntity<Map<String, String>> handleConsultaError(Documentos_ProcessoErrorException ex) {
+		Map<String, String> response = new HashMap<>();
+	    response.put("error", "Erro no Documento");
+	    response.put("message", ex.getMessage());
+
+	    return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
 
 }

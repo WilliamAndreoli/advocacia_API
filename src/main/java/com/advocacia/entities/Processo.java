@@ -3,6 +3,8 @@ package com.advocacia.entities;
 import java.util.List;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -42,7 +44,8 @@ public class Processo {
 	private Cliente cliente;
 	
 	@OneToMany(mappedBy = "processo", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Documentos_Processo> documentosProcesso;
+	@JsonManagedReference
+	private List<Documentos_Processo> documentosProcesso;
 
 	public Integer getId() {
 		return id;
