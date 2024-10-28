@@ -2,9 +2,14 @@ package com.advocacia.services;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -61,5 +66,41 @@ public class Documentos_ProcessoService {
 	        throw new RuntimeException("Erro ao salvar o arquivo", e);
 	    }
 	}
+	
+	public Resource downloadArquivo(String numeroProcesso, String nomeArquivo) {
+        try {
+            // Constrói o caminho completo para o arquivo
+            Path filePath = Paths.get(caminhoDiretorio + numeroProcesso).resolve(nomeArquivo).normalize();
+            Resource resource = new UrlResource(filePath.toUri());
+
+            if (resource.exists() || resource.isReadable()) {
+                return resource;
+            } else {
+                throw new RuntimeException("Arquivo não encontrado ou não pode ser lido.");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao baixar o arquivo.", e);
+        }
+    }
+	
+	public void deleteArquivo(String numeroProcesso, String nomeArquivo) {
+        // Busca o documento no banco pelo nome do arquivo
+        Documentos_Processo documento = doc_ProcessoRepository.findByNomeArquivo(nomeArquivo);
+        
+        if (documento == null) {
+            throw new RuntimeException("Documento não encontrado no banco de dados.");
+        }
+
+        try {
+            // Deleta o arquivo do sistema de arquivos
+            Path filePath = Paths.get(caminhoDiretorio + numeroProcesso).resolve(nomeArquivo).normalize();
+            Files.deleteIfExists(filePath);
+
+            // Remove o registro do banco de dados
+            doc_ProcessoRepository.delete(documento);
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao deletar o arquivo.", e);
+        }
+    }
 	
 }

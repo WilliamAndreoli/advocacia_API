@@ -52,7 +52,7 @@ public class WebSecurityConfig {
 							.requestMatchers(HttpMethod.POST,"/usuarios/**").permitAll()
 							.requestMatchers(HttpMethod.PUT,"/usuarios/**").hasRole("ADMIN")
 							.requestMatchers(HttpMethod.DELETE,"/usuarios/**").hasRole("ADMIN")
-							.requestMatchers(HttpMethod.GET,"/consultas/**").hasAnyRole("ADVOGADO", "ADMIN")
+							.requestMatchers(HttpMethod.GET,"/consultas/**").hasAnyRole("ADVOGADO", "ADMIN", "CLIENTE")
 							.requestMatchers(HttpMethod.POST,"/consultas/**").hasAnyRole("ADVOGADO", "ADMIN")
 							.requestMatchers(HttpMethod.PUT,"/consultas/**").hasAnyRole("ADVOGADO", "ADMIN")
 							.requestMatchers(HttpMethod.GET,"/clientes/**").hasAnyRole("ADVOGADO", "ADMIN")
@@ -61,6 +61,12 @@ public class WebSecurityConfig {
 							.requestMatchers(HttpMethod.GET,"/advogados/**").hasAnyRole("ADVOGADO", "ADMIN")
 							.requestMatchers(HttpMethod.POST,"/advogados/**").hasRole("ADMIN")
 							.requestMatchers(HttpMethod.PUT,"/advogados/**").hasRole("ADMIN")	
+							.requestMatchers(HttpMethod.GET,"/processos/**").hasAnyRole("ADVOGADO", "ADMIN")
+							.requestMatchers(HttpMethod.POST,"/processos/**").hasAnyRole("ADMIN", "ADVOGADO")
+							.requestMatchers(HttpMethod.PUT,"/processos/**").hasAnyRole("ADMIN", "ADVOGADO")	
+							.requestMatchers(HttpMethod.GET,"/documentosProcesso/**").hasAnyRole("ADVOGADO", "ADMIN", "CLIENTE")
+							.requestMatchers(HttpMethod.POST,"/documentosProcesso/**").hasAnyRole("ADVOGADO" ,"ADMIN")
+							.requestMatchers(HttpMethod.PUT,"/documentosProcesso/**").hasAnyRole("ADVOGADO","ADMIN")	
 							.anyRequest().authenticated());
 		
 		http.addFilterBefore(authFilterToken(), UsernamePasswordAuthenticationFilter.class);
