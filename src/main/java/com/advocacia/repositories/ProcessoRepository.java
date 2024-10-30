@@ -16,4 +16,7 @@ public interface ProcessoRepository extends JpaRepository<Processo, Integer> {
 	@Query("SELECT p FROM Processo p INNER JOIN p.cliente c WHERE c.cpf = :cpf")
 	List<Processo> findByClienteCpf(@Param("cpf") String cpf);
 	
+	@Query("SELECT p FROM Processo p INNER JOIN p.advogado a WHERE a.numeroOrdem = :numeroOrdem")
+	List<Processo> findByAdvogadoNumeroOrdem(@Param("numeroOrdem") String numeroOrdem);
+	
 }

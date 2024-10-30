@@ -26,6 +26,10 @@ public class ProcessoService {
 		return processoRepository.findByClienteCpf(cpf);
 	}
 	
+	public List<Processo> findByAdvogadoNumeroOrdem(String numeroOrdem) {
+		return processoRepository.findByAdvogadoNumeroOrdem(numeroOrdem);
+	}
+	
 	public Processo save(Processo processo) {
 		return processoRepository.save(processo);
 	}

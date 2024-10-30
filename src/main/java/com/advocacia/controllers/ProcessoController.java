@@ -50,6 +50,12 @@ public class ProcessoController {
 		return ResponseEntity.ok(processos);
 	}
 	
+	@GetMapping("/advogado/{numeroOrdem}")
+	public ResponseEntity<List<Processo>> findByAdvogadoNumeroOrdem(@PathVariable String numeroOrdem) {
+		List<Processo> processos = processoService.findByAdvogadoNumeroOrdem(numeroOrdem);
+		return ResponseEntity.ok(processos);
+	}
+	
 	@PostMapping
 	public Processo createProcesso(@RequestBody Processo processoDetails) {
 		
