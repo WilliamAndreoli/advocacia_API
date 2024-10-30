@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.advocacia.entities.Documentos_Processo;
+import com.advocacia.exceptions.Documentos_ProcessoErrorException;
 import com.advocacia.services.Documentos_ProcessoService;
 import com.advocacia.services.ProcessoService;
 
@@ -35,8 +36,16 @@ public class Documentos_ProcessoController {
 	}
 	
 	@GetMapping("/nomeArquivo/{nomeArquivo}")
-	public Documentos_Processo findByNomeArquivo(String nomeArquivo) {
-		return doc_ProcessoService.findByNomeArquivo(nomeArquivo);
+	public ResponseEntity<Documentos_Processo> findByNomeArquivo(String nomeArquivo) {
+		
+		Documentos_Processo doc = doc_ProcessoService.findByNomeArquivo(nomeArquivo);
+		
+		if (doc == null) {
+			throw new Documentos_ProcessoErrorException("Não existe arquivos do processo: tal com esse "
+					+ "nome: " + nomeArquivo);
+		}
+		
+		return ResponseEntity.ok(doc);
 	};
 	
 	@GetMapping("/download/{numeroProcesso}/{nomeArquivo}")

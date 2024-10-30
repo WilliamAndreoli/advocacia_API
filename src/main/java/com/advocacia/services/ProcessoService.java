@@ -22,6 +22,10 @@ public class ProcessoService {
 		return processoRepository.findByNumeroProcesso(numeroProcesso);
 	}
 	
+	public List<Processo> findByClienteCpf(String cpf) {
+		return processoRepository.findByClienteCpf(cpf);
+	}
+	
 	public Processo save(Processo processo) {
 		return processoRepository.save(processo);
 	}

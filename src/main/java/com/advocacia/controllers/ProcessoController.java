@@ -3,6 +3,7 @@ package com.advocacia.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -41,6 +42,12 @@ public class ProcessoController {
 	@GetMapping("/numeroProcesso/{numeroProcesso}")
 	public Processo findByNumeroProcesso(@PathVariable String numeroProcesso) {
 		return processoService.findByNumeroProcesso(numeroProcesso);
+	}
+	
+	@GetMapping("/cliente/{cpf}")
+	public ResponseEntity<List<Processo>> findByClienteCpf(@PathVariable String cpf) {
+		List<Processo> processos = processoService.findByClienteCpf(cpf);
+		return ResponseEntity.ok(processos);
 	}
 	
 	@PostMapping
