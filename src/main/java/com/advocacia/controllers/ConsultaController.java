@@ -20,6 +20,7 @@ import com.advocacia.dto.ClienteDTO;
 import com.advocacia.dto.ConsultaDTO;
 import com.advocacia.entities.Cliente;
 import com.advocacia.entities.Consulta;
+import com.advocacia.exceptions.ConsultaErrorException;
 import com.advocacia.services.ClienteService;
 import com.advocacia.services.ConsultaService;
 
@@ -72,12 +73,18 @@ public class ConsultaController {
 	
 	@PostMapping
 	public ResponseEntity<ConsultaDTO> createConsulta(@RequestBody Consulta consulta) {
+		
+		Cliente cliente = clienteService.findByCpf(consulta.getCliente().getCpf());
+
+		if (cliente == null) {
+			throw new ConsultaErrorException("Cliente não encontrado com o CPF: " + consulta.getCliente().getCpf());
+		}
+		
+		consulta.setCliente(cliente);
+		
 		Consulta novaConsulta = consultaService.save(consulta);
 
-		Optional<Cliente> cliente = clienteService.findById(novaConsulta.getCliente().getId());
-		Cliente existingCliente = cliente.get();
-		existingCliente.setNome(existingCliente.getNome());
-		ClienteDTO clienteDTO = new ClienteDTO(existingCliente.getId(), existingCliente.getNome());
+		ClienteDTO clienteDTO = new ClienteDTO(cliente.getId(), cliente.getNome());
 		
         ConsultaDTO consultaDto = new ConsultaDTO(novaConsulta.getId(), novaConsulta.getValor(), novaConsulta.getData_marcada(), novaConsulta.getData_realizada(), novaConsulta.getPagamento(), novaConsulta.getData_pagamento(), 
 				novaConsulta.getMeio_pagamento(), novaConsulta.getResumo(), clienteDTO);
@@ -86,7 +93,7 @@ public class ConsultaController {
     }
 	
 	@PutMapping("/id/{id}")
-	public ResponseEntity<Consulta> alteraConsulta(@PathVariable Integer id,@RequestBody Consulta consultaDetails) {
+	public ResponseEntity<ConsultaDTO> alteraConsulta(@PathVariable Integer id,@RequestBody Consulta consultaDetails) {
 		
 		Optional<Consulta> consulta = consultaService.findById(id);
 		
@@ -103,17 +110,22 @@ public class ConsultaController {
 		existingConsulta.setMeio_pagamento(consultaDetails.getMeio_pagamento());
 		existingConsulta.setResumo(consultaDetails.getResumo());
 		
-		Optional<Cliente> cliente = clienteService.findById(consultaDetails.getCliente().getId());
+		Cliente cliente = clienteService.findByCpf(consultaDetails.getCliente().getCpf());
 		
-		if (cliente.get() == null) {
+		if (cliente == null) {
 			return ResponseEntity.notFound().build();
-		}
-		
-		Cliente existingCliente = cliente.get(); 
+		} 
 	
-		existingConsulta.setCliente(existingCliente);
+		existingConsulta.setCliente(cliente);
 		
-		return ResponseEntity.ok(consultaService.save(existingConsulta));
+		Consulta updatedConsulta = consultaService.save(existingConsulta);
+		
+		ClienteDTO clienteDTO = new ClienteDTO(cliente.getId(), cliente.getNome());
+		
+		ConsultaDTO consultaDTO = new ConsultaDTO(updatedConsulta.getId(), updatedConsulta.getValor(), updatedConsulta.getData_marcada(), updatedConsulta.getData_realizada(), updatedConsulta.getPagamento(), updatedConsulta.getData_pagamento(), 
+				updatedConsulta.getMeio_pagamento(), updatedConsulta.getResumo(), clienteDTO);
+		
+		return ResponseEntity.ok(consultaDTO);
 	}
 	
 	@DeleteMapping("/id/{id}")
