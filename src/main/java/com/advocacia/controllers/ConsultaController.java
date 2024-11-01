@@ -130,14 +130,14 @@ public class ConsultaController {
 	
 	@DeleteMapping("/id/{id}")
     public ResponseEntity<Void> deleteConsultaById(@PathVariable Integer id) {
-        Optional<Cliente> cliente = clienteService.findById(id);
+        Optional<Consulta> consulta = consultaService.findById(id);
         
-        Cliente existingCliente = cliente.get();
+        Consulta existingConsulta = consulta.get();
         
-        if (existingCliente == null) {
+        if (existingConsulta == null) {
             return ResponseEntity.notFound().build();
         } else { 
-        	clienteService.deleteById(id);
+        	consultaService.deleteById(id);
         }
         return ResponseEntity.noContent().build();
     }

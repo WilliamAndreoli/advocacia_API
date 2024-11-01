@@ -30,6 +30,10 @@ public class ConsultaService {
 	public List<Consulta> findAllConsultaCliente(Integer idCliente) {
 		return consultaRepository.findAllConsultaCliente(idCliente);
 	}
+
+	public void deleteById(Integer id) {
+		consultaRepository.deleteById(id);
+	}
 	
 	//Implementar findByData
 	
