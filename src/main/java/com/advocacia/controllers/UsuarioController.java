@@ -82,10 +82,20 @@ public class UsuarioController {
         if (usuario == null) {
             return ResponseEntity.notFound().build();
         }
-        usuario.setUsername(usuarioDTO.getUsername());
-        usuario.setPassword(passwordEncoder.encode(usuarioDTO.getPassword()));
+        if (usuarioDTO.getUsername() == null) {
+        	usuario.setUsername(username);
+        } else {
+        	usuario.setUsername(usuarioDTO.getUsername());	
+        }
+        
+       if (usuarioDTO.getPassword() == null) {
+    		usuario.setPassword(usuario.getPassword());   
+       } else {
+    	   usuario.setPassword(usuarioDTO.getPassword());   
+       }
+       
         usuario.setTipoUsuario(usuarioDTO.getTipoUsuario());
-        UsuarioNoPassDTO updatedUsuario = usuarioService.save(usuario);
+        UsuarioNoPassDTO updatedUsuario = usuarioService.update(usuario);
         return ResponseEntity.ok(updatedUsuario);
     }
     

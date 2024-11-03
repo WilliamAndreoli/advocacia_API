@@ -38,8 +38,9 @@ public class ConsultaController {
 	@GetMapping
 	public ResponseEntity<List<ConsultaDTO>> findAll() {
 		List<Consulta> consultas = consultaService.findAll();
-	    List<ConsultaDTO> consultaDTOs = consultas.stream().map(consulta -> {
-	        Cliente cliente = consulta.getCliente(); // Supondo que você tenha um método getCliente()
+	    
+		List<ConsultaDTO> consultaDTOs = consultas.stream().map(consulta -> {
+	        Cliente cliente = consulta.getCliente(); 
 	        ClienteDTO clienteDTO = new ClienteDTO(cliente.getId(), cliente.getNome());
 	        return new ConsultaDTO(consulta.getId(), consulta.getValor(), consulta.getData_marcada(),
 	                consulta.getData_realizada(), consulta.getPagamento(), consulta.getData_pagamento(),

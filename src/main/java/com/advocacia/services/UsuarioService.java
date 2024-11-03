@@ -21,163 +21,184 @@ import jakarta.transaction.Transactional;
 @Service
 public class UsuarioService {
 
-    @Autowired
-    private UsuarioRepository usuarioRepository;
-    
-    @Autowired
-    private Tipo_UsuarioRepository tipoUsuarioRepository;
-    
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-    
-    public List<UsuarioNoPassDTO> findAll() {
-        return usuarioRepository.findAll().stream()
-            .map(this::convertToNoPassDto)
-            .collect(Collectors.toList());
-    }
+	@Autowired
+	private UsuarioRepository usuarioRepository;
 
-    public UsuarioNoPassDTO save(UsuarioDTO usuarioDto) {
-        Usuario usuario = convertToEntity(usuarioDto);
-        
-        Usuario existingUsuario = usuarioRepository.findByUsername(usuario.getUsername());
-        
-        if (existingUsuario != null) {
-        	throw new UsuarioErrorException("Já existe um Usuário cadastrado com esse e-mail");
-        }
-        
-        // Verificando se o Tipo_Usuario já existe
-        Tipo_Usuario tipoUsuario = usuario.getTipo_Usuario();
-        if (tipoUsuario != null) { 
-        	if (tipoUsuario.getDescricao() != null) {
-        		// Buscar o Tipo_usuario existente
-        		Tipo_Usuario existingTipoUsuario = tipoUsuarioRepository.findByDescricao(tipoUsuario.getDescricao());
-        		if (existingTipoUsuario != null) {
-                    // Se o Tipo_Usuario existe, associe-o ao Usuario
-                    usuario.setTipo_Usuario(existingTipoUsuario);
-                } else {
-                    // Se o Tipo_Usuario não existe, salve o novo Tipo_Usuario
-                    tipoUsuario = tipoUsuarioRepository.save(tipoUsuario);
-                    usuario.setTipo_Usuario(tipoUsuario);
-                }
-        	} else {
-                throw new RuntimeException("Tipo Usuário nulo ou inexistente: " + tipoUsuario.getDescricao());
-            }
-        }
-        
-        usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
-        Usuario savedUsuario = usuarioRepository.save(usuario);
-        return convertToNoPassDto(savedUsuario);
-    }
-    
-    public Usuario save(Usuario usuario) {
-        
-        Usuario existingUsuario = usuarioRepository.findByUsername(usuario.getUsername());
-        
-        if (existingUsuario != null) {
-        	throw new UsuarioErrorException("Já existe um Usuário cadastrado com esse e-mail");
-        }
-        
-        // Verificando se o Tipo_Usuario já existe
-        Tipo_Usuario tipoUsuario = usuario.getTipo_Usuario();
-        if (tipoUsuario != null) { 
-        	if (tipoUsuario.getDescricao() != null) {
-        		// Buscar o Tipo_usuario existente
-        		Tipo_Usuario existingTipoUsuario = tipoUsuarioRepository.findByDescricao(tipoUsuario.getDescricao());
-        		if (existingTipoUsuario != null) {
-                    // Se o Tipo_Usuario existe, associe-o ao Usuario
-                    usuario.setTipo_Usuario(existingTipoUsuario);
-                } else {
-                    // Se o Tipo_Usuario não existe, salve o novo Tipo_Usuario
-                    tipoUsuario = tipoUsuarioRepository.save(tipoUsuario);
-                    usuario.setTipo_Usuario(tipoUsuario);
-                }
-        	} else {
-                throw new RuntimeException("Tipo Usuário nulo ou inexistente: " + tipoUsuario.getDescricao());
-            }
-        }
-        
-        usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
-        Usuario savedUsuario = usuarioRepository.save(usuario);
-        return savedUsuario;
-    }
+	@Autowired
+	private Tipo_UsuarioRepository tipoUsuarioRepository;
 
-    @Transactional
-    public void deleteById(Integer id) {
-        usuarioRepository.deleteById(id);
-    }
-    
-    @Transactional
-    public void deleteByUsername(String username) {
-        usuarioRepository.deleteByUsername(username);
-    }
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
-    public List<UsuarioDTO> findByAllUsername(String username) {
-        return usuarioRepository.findAllByUsername(username).stream()
-            .map(this::convertToDto)
-            .collect(Collectors.toList());
-    }
-    
-    public UsuarioDTO findByUsername(String username) {
-        Usuario usuario = usuarioRepository.findByUsername(username);
-        if (usuario != null) {
-            return convertToDto(usuario);
-        }
-        // Lançar uma exceção ou retornar null se o usuário não for encontrado
-        return null;
-    }
-    
-    public UsuarioNoPassDTO findByUsernameNoPass(String username) {
-        Usuario usuario = usuarioRepository.findByUsername(username);
-        if (usuario != null) {
-            return convertToNoPassDto(usuario);
-        }
-        // Lançar uma exceção ou retornar null se o usuário não for encontrado
-        return null;
-    }
+	public List<UsuarioNoPassDTO> findAll() {
+		return usuarioRepository.findAll().stream().map(this::convertToNoPassDto).collect(Collectors.toList());
+	}
 
-    public UsuarioNoPassDTO findById(int id) {
-        Usuario usuario = usuarioRepository.findById(id).orElse(null);
-        return usuario != null ? convertToNoPassDto(usuario) : null;
-    }
-    
-    public UsuarioNoPassDTO alteraStatus(Status status, String username) {
-    	Usuario usuario = usuarioRepository.findByUsername(username);
-    	
-    	usuario.setStatus(status);
-    	
-    	Usuario savedUsuario = usuarioRepository.save(usuario);
-    	return convertToNoPassDto(savedUsuario);
-    	
-    }
+	public UsuarioNoPassDTO save(UsuarioDTO usuarioDto) {
+		Usuario usuario = convertToEntity(usuarioDto);
 
-    // Métodos auxiliares para conversão
-    private UsuarioDTO convertToDto(Usuario usuario) {
-        return new UsuarioDTO(
-            usuario.getId(),
-            usuario.getUsername(),
-            usuario.getPassword(),
-            usuario.getStatus(),
-            usuario.getTipo_Usuario()
-        );
-    }
-    
-    private UsuarioNoPassDTO convertToNoPassDto(Usuario usuario) {
-        return new UsuarioNoPassDTO(
-            usuario.getId(),
-            usuario.getUsername(),
-            usuario.getStatus(),
-            usuario.getTipo_Usuario()
-        );
-    }
+		Usuario existingUsuario = usuarioRepository.findByUsername(usuario.getUsername());
 
-    private Usuario convertToEntity(UsuarioDTO usuarioDto) {
-        Usuario usuario = new Usuario();
-        usuario.setId(usuarioDto.getId());
-        usuario.setUsername(usuarioDto.getUsername());
-        usuario.setPassword(usuarioDto.getPassword());
-        usuario.setStatus(usuarioDto.getStatus());
-        usuario.setTipo_Usuario(tipoUsuarioRepository.findByDescricao(usuarioDto.getTipoUsuario().getDescricao()));
-        return usuario;
-    }
+		if (existingUsuario != null) {
+			throw new UsuarioErrorException("Já existe um Usuário cadastrado com esse e-mail");
+		}
+
+		// Verificando se o Tipo_Usuario já existe
+		Tipo_Usuario tipoUsuario = usuario.getTipo_Usuario();
+		if (tipoUsuario != null) {
+			if (tipoUsuario.getDescricao() != null) {
+				// Buscar o Tipo_usuario existente
+				Tipo_Usuario existingTipoUsuario = tipoUsuarioRepository.findByDescricao(tipoUsuario.getDescricao());
+				if (existingTipoUsuario != null) {
+					// Se o Tipo_Usuario existe, associe-o ao Usuario
+					usuario.setTipo_Usuario(existingTipoUsuario);
+				} else {
+					// Se o Tipo_Usuario não existe, salve o novo Tipo_Usuario
+					tipoUsuario = tipoUsuarioRepository.save(tipoUsuario);
+					usuario.setTipo_Usuario(tipoUsuario);
+				}
+			} else {
+				throw new RuntimeException("Tipo Usuário nulo ou inexistente: " + tipoUsuario.getDescricao());
+			}
+		}
+
+		usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+		Usuario savedUsuario = usuarioRepository.save(usuario);
+		return convertToNoPassDto(savedUsuario);
+	}
+
+	public Usuario save(Usuario usuario) {
+
+		Usuario existingUsuario = usuarioRepository.findByUsername(usuario.getUsername());
+
+		if (existingUsuario != null) {
+			throw new UsuarioErrorException("Já existe um Usuário cadastrado com esse e-mail");
+		}
+
+		// Verificando se o Tipo_Usuario já existe
+		Tipo_Usuario tipoUsuario = usuario.getTipo_Usuario();
+		if (tipoUsuario != null) {
+			if (tipoUsuario.getDescricao() != null) {
+				// Buscar o Tipo_usuario existente
+				Tipo_Usuario existingTipoUsuario = tipoUsuarioRepository.findByDescricao(tipoUsuario.getDescricao());
+				if (existingTipoUsuario != null) {
+					// Se o Tipo_Usuario existe, associe-o ao Usuario
+					usuario.setTipo_Usuario(existingTipoUsuario);
+				} else {
+					// Se o Tipo_Usuario não existe, salve o novo Tipo_Usuario
+					tipoUsuario = tipoUsuarioRepository.save(tipoUsuario);
+					usuario.setTipo_Usuario(tipoUsuario);
+				}
+			} else {
+				throw new RuntimeException("Tipo Usuário nulo ou inexistente: " + tipoUsuario.getDescricao());
+			}
+		}
+
+		usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+		Usuario savedUsuario = usuarioRepository.save(usuario);
+		return savedUsuario;
+	}
+
+	public UsuarioNoPassDTO update(UsuarioDTO usuarioDto) {
+		Usuario usuario = convertToEntity(usuarioDto);
+
+		Usuario existingUsuario = usuarioRepository.findByUsername(usuario.getUsername());
+
+//		if (existingUsuario != null) {
+//			throw new UsuarioErrorException("Já existe um Usuário cadastrado com esse e-mail");
+//		}
+
+		// Verificando se o Tipo_Usuario já existe
+		Tipo_Usuario tipoUsuario = usuario.getTipo_Usuario();
+		if (tipoUsuario != null) {
+			if (tipoUsuario.getDescricao() != null) {
+				// Buscar o Tipo_usuario existente
+				Tipo_Usuario existingTipoUsuario = tipoUsuarioRepository.findByDescricao(tipoUsuario.getDescricao());
+				if (existingTipoUsuario != null) {
+					// Se o Tipo_Usuario existe, associe-o ao Usuario
+					usuario.setTipo_Usuario(existingTipoUsuario);
+				} else {
+					// Se o Tipo_Usuario não existe, salve o novo Tipo_Usuario
+					tipoUsuario = tipoUsuarioRepository.save(tipoUsuario);
+					usuario.setTipo_Usuario(tipoUsuario);
+				}
+			} else {
+				throw new RuntimeException("Tipo Usuário nulo ou inexistente: " + tipoUsuario.getDescricao());
+			}
+		}
+
+		usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+		Usuario savedUsuario = usuarioRepository.save(usuario);
+		return convertToNoPassDto(savedUsuario);
+	}
+
+	@Transactional
+	public void deleteById(Integer id) {
+		usuarioRepository.deleteById(id);
+	}
+
+	@Transactional
+	public void deleteByUsername(String username) {
+		usuarioRepository.deleteByUsername(username);
+	}
+
+	public List<UsuarioDTO> findByAllUsername(String username) {
+		return usuarioRepository.findAllByUsername(username).stream().map(this::convertToDto)
+				.collect(Collectors.toList());
+	}
+
+	public UsuarioDTO findByUsername(String username) {
+		Usuario usuario = usuarioRepository.findByUsername(username);
+		if (usuario != null) {
+			return convertToDto(usuario);
+		}
+		// Lançar uma exceção ou retornar null se o usuário não for encontrado
+		return null;
+	}
+
+	public UsuarioNoPassDTO findByUsernameNoPass(String username) {
+		Usuario usuario = usuarioRepository.findByUsername(username);
+		if (usuario != null) {
+			return convertToNoPassDto(usuario);
+		}
+		// Lançar uma exceção ou retornar null se o usuário não for encontrado
+		return null;
+	}
+
+	public UsuarioNoPassDTO findById(int id) {
+		Usuario usuario = usuarioRepository.findById(id).orElse(null);
+		return usuario != null ? convertToNoPassDto(usuario) : null;
+	}
+
+	public UsuarioNoPassDTO alteraStatus(Status status, String username) {
+		Usuario usuario = usuarioRepository.findByUsername(username);
+
+		usuario.setStatus(status);
+
+		Usuario savedUsuario = usuarioRepository.save(usuario);
+		return convertToNoPassDto(savedUsuario);
+
+	}
+
+	// Métodos auxiliares para conversão
+	private UsuarioDTO convertToDto(Usuario usuario) {
+		return new UsuarioDTO(usuario.getId(), usuario.getUsername(), usuario.getPassword(), usuario.getStatus(),
+				usuario.getTipo_Usuario());
+	}
+
+	private UsuarioNoPassDTO convertToNoPassDto(Usuario usuario) {
+		return new UsuarioNoPassDTO(usuario.getId(), usuario.getUsername(), usuario.getStatus(),
+				usuario.getTipo_Usuario());
+	}
+
+	private Usuario convertToEntity(UsuarioDTO usuarioDto) {
+		Usuario usuario = new Usuario();
+		usuario.setId(usuarioDto.getId());
+		usuario.setUsername(usuarioDto.getUsername());
+		usuario.setPassword(usuarioDto.getPassword());
+		usuario.setStatus(usuarioDto.getStatus());
+		usuario.setTipo_Usuario(tipoUsuarioRepository.findByDescricao(usuarioDto.getTipoUsuario().getDescricao()));
+		return usuario;
+	}
 
 }
