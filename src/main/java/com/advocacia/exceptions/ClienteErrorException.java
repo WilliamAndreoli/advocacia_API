@@ -1,11 +1,10 @@
 package com.advocacia.exceptions;
 
-public class AutorErrorException extends RuntimeException {
+public class ClienteErrorException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
 
-	public AutorErrorException(String message) {
+	public ClienteErrorException(String message) {
         super(message);
     }
-	
 }

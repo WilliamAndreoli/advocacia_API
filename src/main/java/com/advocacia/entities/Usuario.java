@@ -28,12 +28,12 @@ public class Usuario {
 	private String password;
 
 	@Enumerated(EnumType.STRING) // Usando EnumType.STRING para armazenar o nome do enum
-    private Status status;
+	private Status status = Status.ATIVO;
 	
 	@ManyToOne
     @JoinColumn(name = "tipo_usuario_id", nullable = false)
 	private Tipo_Usuario tipo_Usuario;
-	
+
 	public Integer getId() {
 		return id;
 	}

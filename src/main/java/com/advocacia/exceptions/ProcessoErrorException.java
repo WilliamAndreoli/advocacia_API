@@ -1,11 +1,12 @@
 package com.advocacia.exceptions;
 
-public class EditoraErrorException extends RuntimeException {
+public class ProcessoErrorException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
 
-	public EditoraErrorException(String message) {
+	public ProcessoErrorException(String message) {
         super(message);
     }
+	
 	
 }

@@ -1,11 +1,10 @@
 package com.advocacia.exceptions;
 
-public class EmprestimoErrorException extends RuntimeException {
+public class ConsultaErrorException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
 
-	public EmprestimoErrorException(String message) {
+	public ConsultaErrorException(String message) {
         super(message);
     }
-	
 }

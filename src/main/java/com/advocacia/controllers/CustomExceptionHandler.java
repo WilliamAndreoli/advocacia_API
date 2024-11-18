@@ -8,85 +8,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.advocacia.exceptions.AreaErrorException;
-import com.advocacia.exceptions.AreaNotFoundException;
-import com.advocacia.exceptions.AutorErrorException;
-import com.advocacia.exceptions.AutorNotFoundException;
-import com.advocacia.exceptions.EditoraErrorException;
-import com.advocacia.exceptions.EditoraNotFoundException;
-import com.advocacia.exceptions.EmprestimoErrorException;
+import com.advocacia.exceptions.AdvogadoErrorException;
+import com.advocacia.exceptions.ClienteErrorException;
+import com.advocacia.exceptions.ConsultaErrorException;
+import com.advocacia.exceptions.Documentos_ProcessoErrorException;
 import com.advocacia.exceptions.JWTTokenException;
-import com.advocacia.exceptions.LivroErrorException;
-import com.advocacia.exceptions.LivroNotFoundException;
 import com.advocacia.exceptions.LoginErrorException;
+import com.advocacia.exceptions.ProcessoErrorException;
 import com.advocacia.exceptions.UsuarioErrorException;
 import com.advocacia.exceptions.UsuarioNotFoundException;
 
 @RestControllerAdvice
 public class CustomExceptionHandler {
-	
-	@ExceptionHandler(EditoraNotFoundException.class)
-    public ResponseEntity<Map<String, String>> handleEditoraNotFound(EditoraNotFoundException ex) {
-		Map<String, String> response = new HashMap<>();
-	    response.put("error", "Editora não encontrada");
-	    response.put("message", ex.getMessage());
-
-	    return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
-    }
-	
-	@ExceptionHandler(EditoraErrorException.class)
-    public ResponseEntity<Map<String, String>> handleEditoraError(EditoraErrorException ex) {
-		Map<String, String> response = new HashMap<>();
-	    response.put("error", "Erro na Editora");
-	    response.put("message", ex.getMessage());
-
-	    return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler(AreaNotFoundException.class)
-    public ResponseEntity<Map<String, String>> handleAreaNotFound(AreaNotFoundException ex) {
-    	Map<String, String> response = new HashMap<>();
-	    response.put("error", "Área não encontrada");
-	    response.put("message", ex.getMessage());
-
-	    return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
-    }
-    
-    @ExceptionHandler(AreaErrorException.class)
-    public ResponseEntity<Map<String, String>> handleAreaError(AreaErrorException ex) {
-    	Map<String, String> response = new HashMap<>();
-	    response.put("error", "Erro na Area");
-	    response.put("message", ex.getMessage());
-
-	    return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler(AutorNotFoundException.class)
-    public ResponseEntity<Map<String, String>> handleAutorNotFound(AutorNotFoundException ex) {
-    	Map<String, String> response = new HashMap<>();
-	    response.put("error", "Autor não encontrado");
-	    response.put("message", ex.getMessage());
-
-	    return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
-    }
-    
-    @ExceptionHandler(AutorErrorException.class)
-    public ResponseEntity<Map<String, String>> handleErrorFound(AutorErrorException ex) {
-    	Map<String, String> response = new HashMap<>();
-	    response.put("error", "Erro no Autor");
-	    response.put("message", ex.getMessage());
-
-	    return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
-    }
-    
-    @ExceptionHandler(LivroNotFoundException.class)
-    public ResponseEntity<Map<String, String>> handleLivroNotFound(LivroNotFoundException ex) {
-		Map<String, String> response = new HashMap<>();
-	    response.put("error", "Livro não encontrado");
-	    response.put("message", ex.getMessage());
-
-	    return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
-    }
     
     @ExceptionHandler(UsuarioNotFoundException.class)
     public ResponseEntity<Map<String, String>> handleUsuarioNotFound(UsuarioNotFoundException ex) {
@@ -124,19 +57,46 @@ public class CustomExceptionHandler {
 	    return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
     
-    @ExceptionHandler(LivroErrorException.class)
-    public ResponseEntity<Map<String, String>> handleUsuarioError(LivroErrorException ex) {
+    @ExceptionHandler(ConsultaErrorException.class)
+    public ResponseEntity<Map<String, String>> handleConsultaError(ConsultaErrorException ex) {
 		Map<String, String> response = new HashMap<>();
-	    response.put("error", "Erro no Livro");
+	    response.put("error", "Erro na Consulta");
 	    response.put("message", ex.getMessage());
 
 	    return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
     
-    @ExceptionHandler(EmprestimoErrorException.class)
-    public ResponseEntity<Map<String, String>> handleEmprestimoError(EmprestimoErrorException ex) {
+    @ExceptionHandler(ClienteErrorException.class)
+    public ResponseEntity<Map<String, String>> handleConsultaError(ClienteErrorException ex) {
 		Map<String, String> response = new HashMap<>();
-	    response.put("error", "Erro no Emprestimo");
+	    response.put("error", "Erro no Cliente");
+	    response.put("message", ex.getMessage());
+
+	    return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+    
+    @ExceptionHandler(AdvogadoErrorException.class)
+    public ResponseEntity<Map<String, String>> handleConsultaError(AdvogadoErrorException ex) {
+		Map<String, String> response = new HashMap<>();
+	    response.put("error", "Erro no Advogado");
+	    response.put("message", ex.getMessage());
+
+	    return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+    
+    @ExceptionHandler(ProcessoErrorException.class)
+    public ResponseEntity<Map<String, String>> handleConsultaError(ProcessoErrorException ex) {
+		Map<String, String> response = new HashMap<>();
+	    response.put("error", "Erro no Processo");
+	    response.put("message", ex.getMessage());
+
+	    return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+    
+    @ExceptionHandler(Documentos_ProcessoErrorException.class)
+    public ResponseEntity<Map<String, String>> handleConsultaError(Documentos_ProcessoErrorException ex) {
+		Map<String, String> response = new HashMap<>();
+	    response.put("error", "Erro no Documento");
 	    response.put("message", ex.getMessage());
 
 	    return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
