@@ -24,7 +24,7 @@ import com.advocacia.services.UsuarioService;
 
 @RestController
 @RequestMapping("/usuarios")
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:4200")
 public class UsuarioController {
 
     @Autowired
