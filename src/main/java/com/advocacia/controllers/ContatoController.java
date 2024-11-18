@@ -1,8 +1,11 @@
 package com.advocacia.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,13 +13,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/contato")
+@CrossOrigin("http://localhost:4200")
 public class ContatoController {
 
 	@Autowired
 	private JavaMailSender mailSender;
 	
 	@PostMapping
-	public String enviarEmail(@RequestBody Contato contato) {
+	public ResponseEntity<String> enviarEmail(@RequestBody Contato contato) {
 		try {
 			SimpleMailMessage mensagem = new SimpleMailMessage();
 			mensagem.setTo(contato.getEmail());
@@ -25,10 +29,12 @@ public class ContatoController {
 						+ contato.getAssunto() + ".\nNossa equipe entrará em contato em breve.\n\nAtenciosamente,\nAndreoli Advocacia.");
 			mailSender.send(mensagem);
 			
-			return "Email enviado com sucesso!";
+			System.out.println("Email enviado para: " + contato.getEmail());
+			
+			return ResponseEntity.ok("Email enviado com sucesso!");
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "Erro ao enviar e-mail.";
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao enviar mensagem.");
 		}
 	}
 	
