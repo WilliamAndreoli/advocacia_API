@@ -3,6 +3,7 @@ package com.advocacia.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.advocacia.converters.UsuarioDTOConverter;
@@ -39,6 +41,14 @@ public class UsuarioController {
     @GetMapping
     public List<UsuarioNoPassDTO> getAllUsuarios() {
         List<UsuarioNoPassDTO> usuariosDto = usuarioService.findAll();
+        return usuariosDto;
+    }
+    
+    @GetMapping("/ativos")
+    public Page<UsuarioNoPassDTO> getAllUsuariosAtivos(
+    		@RequestParam(defaultValue = "0")int page,
+    		@RequestParam(defaultValue = "10") int size) {
+        Page<UsuarioNoPassDTO> usuariosDto = usuarioService.findAllAtivos(page, size);
         return usuariosDto;
     }
 
@@ -101,7 +111,12 @@ public class UsuarioController {
     	   usuario.setPassword(usuarioDTO.getPassword());   
        }
        
-        usuario.setTipoUsuario(usuarioDTO.getTipoUsuario());
+       if (usuarioDTO.getTipoUsuario().getId() == 0) {
+    	   usuario.setTipoUsuario(usuario.getTipoUsuario());
+       } else {
+    	   usuario.setTipoUsuario(usuarioDTO.getTipoUsuario());
+       }
+    
         UsuarioNoPassDTO updatedUsuario = usuarioService.update(usuario);
         return ResponseEntity.ok(updatedUsuario);
     }

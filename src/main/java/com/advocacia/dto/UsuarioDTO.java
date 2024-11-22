@@ -75,6 +75,7 @@ public class UsuarioDTO {
         this.tipoUsuario = tipoUsuario;
     }
 
+
     
     
 	

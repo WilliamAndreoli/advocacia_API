@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -31,9 +33,17 @@ public class UsuarioService {
 	private PasswordEncoder passwordEncoder;
 
 	public List<UsuarioNoPassDTO> findAll() {
-		return usuarioRepository.findAllAtivos().stream().map(this::convertToNoPassDto).collect(Collectors.toList());
+		return usuarioRepository.findAll().stream().map(this::convertToNoPassDto).collect(Collectors.toList());
 	}
+	
+	public Page<UsuarioNoPassDTO> findAllAtivos(int page, int size) {
+	    PageRequest pageable = PageRequest.of(page, size);
+	    Page<Usuario> usuariosAtivos = usuarioRepository.findAllAtivos(pageable);
 
+	    // Mapear cada entidade para DTO mantendo o objeto Page
+	    return usuariosAtivos.map(this::convertToNoPassDto);
+	}
+	
 	public UsuarioNoPassDTO save(UsuarioDTO usuarioDto) {
 		Usuario usuario = convertToEntity(usuarioDto);
 
@@ -66,6 +76,7 @@ public class UsuarioService {
 		Usuario savedUsuario = usuarioRepository.save(usuario);
 		return convertToNoPassDto(savedUsuario);
 	}
+	
 
 	public Usuario save(Usuario usuario) {
 
@@ -103,15 +114,18 @@ public class UsuarioService {
 		Usuario usuario = convertToEntity(usuarioDto);
 
 		Usuario existingUsuario = usuarioRepository.findByUsername(usuario.getUsername());
-
-//		if (existingUsuario != null) {
-//			throw new UsuarioErrorException("Já existe um Usuário cadastrado com esse e-mail");
-//		}
-
+		
 		// Verificando se o Tipo_Usuario já existe
-		Tipo_Usuario tipoUsuario = usuario.getTipo_Usuario();
-		if (tipoUsuario != null) {
+		Tipo_Usuario tipoUsuario = usuarioDto.getTipoUsuario();
+		if (tipoUsuario != null || tipoUsuario.getId() == 0) {
+			//System.out.println("Segue após verificar Tipo");
+			if (tipoUsuario.getId() == 0 && tipoUsuario.getDescricao() == null) {
+				//System.out.println("Entrou no primeiro if");
+				usuario.setTipo_Usuario(existingUsuario.getTipo_Usuario());	
+			}
+			
 			if (tipoUsuario.getDescricao() != null) {
+				System.out.println("Entrou no segundo if");
 				// Buscar o Tipo_usuario existente
 				Tipo_Usuario existingTipoUsuario = tipoUsuarioRepository.findByDescricao(tipoUsuario.getDescricao());
 				if (existingTipoUsuario != null) {
@@ -122,7 +136,8 @@ public class UsuarioService {
 					tipoUsuario = tipoUsuarioRepository.save(tipoUsuario);
 					usuario.setTipo_Usuario(tipoUsuario);
 				}
-			} else {
+			}  
+			else {
 				throw new RuntimeException("Tipo Usuário nulo ou inexistente: " + tipoUsuario.getDescricao());
 			}
 		}
