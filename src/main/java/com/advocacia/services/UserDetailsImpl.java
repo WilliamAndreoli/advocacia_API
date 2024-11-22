@@ -13,6 +13,8 @@ public class UserDetailsImpl implements UserDetails{
 	
 	private String username;
 	
+	private String name;
+	
 	private String password;
 	
 	private Collection<? extends GrantedAuthority> authorities;
@@ -21,16 +23,18 @@ public class UserDetailsImpl implements UserDetails{
 	    return new UserDetailsImpl(
 	            usuario.getId(),
 	            usuario.getUsername(),
+	            usuario.getName(),
 	            usuario.getPassword(),
 	            usuario.getAuthorities() // Usando o tipoUsuario para definir a autoridade
 	    );
 	}
 	
-	public UserDetailsImpl(Integer id, String username, String password,
+	public UserDetailsImpl(Integer id, String username, String name, String password,
 			Collection<? extends GrantedAuthority> authorities) {
 		super();
 		this.id = id;
 		this.username = username;
+		this.name = name;
 		this.password = password;
 		this.authorities = authorities;
 	}
@@ -48,6 +52,10 @@ public class UserDetailsImpl implements UserDetails{
 	@Override
 	public String getUsername() {
 		return username;
+	}
+	
+	public String getName() {
+		return name;
 	}
 	
 	public Integer getId() {

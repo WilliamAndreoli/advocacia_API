@@ -8,6 +8,7 @@ public class UsuarioNoPassDTO {
 
 	private Integer id;
     private String username;
+    private String name;
     @JsonFormat
     private Status status = Status.ATIVO;
     private Tipo_Usuario tipoUsuario;
@@ -15,9 +16,10 @@ public class UsuarioNoPassDTO {
     // Construtores
     public UsuarioNoPassDTO() {}
 
-    public UsuarioNoPassDTO(Integer id, String username, Status status, Tipo_Usuario tipoUsuario) {
+    public UsuarioNoPassDTO(Integer id, String username, String name, Status status, Tipo_Usuario tipoUsuario) {
         this.id = id;
         this.username = username;
+        this.name = name;
         this.status = status;
         this.tipoUsuario = tipoUsuario;
     }
@@ -34,8 +36,16 @@ public class UsuarioNoPassDTO {
     public String getUsername() {
         return username;
     }
+    
+    public String getName() {
+		return name;
+	}
 
-    public void setUsername(String username) {
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setUsername(String username) {
         this.username = username;
     }
     

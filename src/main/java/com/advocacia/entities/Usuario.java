@@ -25,6 +25,8 @@ public class Usuario {
 	
 	private String username;
 	
+	private String name;
+	
 	private String password;
 
 	@Enumerated(EnumType.STRING) // Usando EnumType.STRING para armazenar o nome do enum
@@ -48,6 +50,14 @@ public class Usuario {
 
 	public void setStatus(Status status) {
 		this.status = status;
+	}
+	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public Tipo_Usuario getTipo_Usuario() {

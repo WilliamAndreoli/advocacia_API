@@ -8,6 +8,7 @@ public class UsuarioDTO {
 
 	private Integer id;
     private String username;
+    private String name;
     private String password;
     @JsonFormat
     private Status status = Status.ATIVO;
@@ -16,9 +17,10 @@ public class UsuarioDTO {
     // Construtores
     public UsuarioDTO() {}
 
-    public UsuarioDTO(Integer id, String username, String password, Status status, Tipo_Usuario tipoUsuario) {
+    public UsuarioDTO(Integer id, String username, String name, String password, Status status, Tipo_Usuario tipoUsuario) {
         this.id = id;
         this.username = username;
+        this.name = name;
         this.password = password;
         this.status = status;
         this.tipoUsuario = tipoUsuario;
@@ -39,6 +41,14 @@ public class UsuarioDTO {
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getPassword() {

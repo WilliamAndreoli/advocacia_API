@@ -1,0 +1,12 @@
+{"properties": [
+  {
+    "name": "advocacia.jwtSecret",
+    "type": "java.lang.String",
+    "description": "A description for 'advocacia.jwtSecret'"
+  },
+  {
+    "name": "advocacia.jwtExpirationMs",
+    "type": "java.lang.String",
+    "description": "A description for 'advocacia.jwtExpirationMs'"
+  }
+]}

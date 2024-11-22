@@ -68,7 +68,7 @@ public class UsuarioController {
         
         UsuarioNoPassDTO existingUsuario = usuarioService.findByUsernameNoPass(usuarioDTO.getUsername());
         
-        if(existingUsuario != null) {
+        if(existingUsuario != null && existingUsuario.getUsername() != null) {
         	throw new UsuarioErrorException("Já existe um usuário com esse e-mail");
         }
     	
@@ -79,6 +79,7 @@ public class UsuarioController {
     @PutMapping("username/{username}")
     public ResponseEntity<UsuarioNoPassDTO> updateUsuario(@PathVariable String username, @RequestBody UsuarioDTO usuarioDTO) {
         UsuarioDTO usuario = usuarioService.findByUsername(username);
+ 
         if (usuario == null) {
             return ResponseEntity.notFound().build();
         }
@@ -86,6 +87,12 @@ public class UsuarioController {
         	usuario.setUsername(username);
         } else {
         	usuario.setUsername(usuarioDTO.getUsername());	
+        }
+        
+        if (usuarioDTO.getName() == null) {
+        	usuario.setName(usuario.getName());
+        } else {
+        	usuario.setName(usuarioDTO.getName());
         }
         
        if (usuarioDTO.getPassword() == null) {

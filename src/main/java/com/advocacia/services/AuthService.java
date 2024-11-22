@@ -39,12 +39,13 @@ public class AuthService {
 		
 			String token = jwtUtils.generateTokenFromUserDetailsImplementation(userAuthenticate);
 			
+			System.out.println(token);
+			
 			AcessDTO acessDto = new AcessDTO(token);
 			
 			return acessDto;
 			
 		} catch(BadCredentialsException e) {
-			//TODO Implements error
 			throw new LoginErrorException("Credenciais inválidas");
 		}
 	

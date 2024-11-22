@@ -22,16 +22,17 @@ import io.jsonwebtoken.security.Keys;
 @Component
 public class JwtUtils {
 
-    @Value("${biblioteca.jwtSecret}")
+    @Value("${advocacia.jwtSecret}")
     private String jwtSecret;
 
-    @Value("${biblioteca.jwtExpirationMs}")
+    @Value("${advocacia.jwtExpirationMs}")
     private int jwtExpirationMs;
 
     public String generateTokenFromUserDetailsImplementation(UserDetailsImpl userDetails) {
         return Jwts.builder()
                 .setSubject(userDetails.getUsername())
-                .claim("name", userDetails.getUsername())
+                .claim("userName", userDetails.getUsername())
+                .claim("name", userDetails.getName())
                 .claim("authorities", userDetails.getAuthorities().stream()
                 		.map(item -> item.getAuthority())
                 		.collect(Collectors.toList()))

@@ -36,7 +36,7 @@ public class CustomExceptionHandler {
 	    response.put("error", "Credências inválidas");
 	    response.put("message", ex.getMessage());
 
-	    return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+	    return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
     }
     
     @ExceptionHandler(JWTTokenException.class)
@@ -54,7 +54,7 @@ public class CustomExceptionHandler {
 	    response.put("error", "Erro no Usuário");
 	    response.put("message", ex.getMessage());
 
-	    return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+	    return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
     }
     
     @ExceptionHandler(ConsultaErrorException.class)

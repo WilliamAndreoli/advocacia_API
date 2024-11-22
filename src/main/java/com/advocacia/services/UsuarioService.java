@@ -31,7 +31,7 @@ public class UsuarioService {
 	private PasswordEncoder passwordEncoder;
 
 	public List<UsuarioNoPassDTO> findAll() {
-		return usuarioRepository.findAll().stream().map(this::convertToNoPassDto).collect(Collectors.toList());
+		return usuarioRepository.findAllAtivos().stream().map(this::convertToNoPassDto).collect(Collectors.toList());
 	}
 
 	public UsuarioNoPassDTO save(UsuarioDTO usuarioDto) {
@@ -61,7 +61,7 @@ public class UsuarioService {
 				throw new RuntimeException("Tipo Usuário nulo ou inexistente: " + tipoUsuario.getDescricao());
 			}
 		}
-
+		
 		usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
 		Usuario savedUsuario = usuarioRepository.save(usuario);
 		return convertToNoPassDto(savedUsuario);
@@ -157,6 +157,7 @@ public class UsuarioService {
 	}
 
 	public UsuarioNoPassDTO findByUsernameNoPass(String username) {
+		System.out.println(username);
 		Usuario usuario = usuarioRepository.findByUsername(username);
 		if (usuario != null) {
 			return convertToNoPassDto(usuario);
@@ -182,12 +183,12 @@ public class UsuarioService {
 
 	// Métodos auxiliares para conversão
 	private UsuarioDTO convertToDto(Usuario usuario) {
-		return new UsuarioDTO(usuario.getId(), usuario.getUsername(), usuario.getPassword(), usuario.getStatus(),
+		return new UsuarioDTO(usuario.getId(), usuario.getUsername(), usuario.getName(), usuario.getPassword(), usuario.getStatus(),
 				usuario.getTipo_Usuario());
 	}
 
 	private UsuarioNoPassDTO convertToNoPassDto(Usuario usuario) {
-		return new UsuarioNoPassDTO(usuario.getId(), usuario.getUsername(), usuario.getStatus(),
+		return new UsuarioNoPassDTO(usuario.getId(), usuario.getUsername(), usuario.getName(), usuario.getStatus(),
 				usuario.getTipo_Usuario());
 	}
 
@@ -195,6 +196,7 @@ public class UsuarioService {
 		Usuario usuario = new Usuario();
 		usuario.setId(usuarioDto.getId());
 		usuario.setUsername(usuarioDto.getUsername());
+		usuario.setName(usuarioDto.getName());
 		usuario.setPassword(usuarioDto.getPassword());
 		usuario.setStatus(usuarioDto.getStatus());
 		usuario.setTipo_Usuario(tipoUsuarioRepository.findByDescricao(usuarioDto.getTipoUsuario().getDescricao()));

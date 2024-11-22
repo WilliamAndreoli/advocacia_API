@@ -3,6 +3,8 @@ package com.advocacia.dto;
 public class AuthenticationDTO {
 
 	private String userName;
+
+	private String name;
 	
 	private String password;
 
@@ -12,6 +14,14 @@ public class AuthenticationDTO {
 
 	public void setUserName(String userName) {
 		this.userName = userName;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getPassword() {
