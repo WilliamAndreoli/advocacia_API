@@ -29,7 +29,7 @@ import com.advocacia.services.UsuarioService;
 
 @RestController
 @RequestMapping("/clientes")
-@CrossOrigin
+@CrossOrigin("http://localhost:4200")
 public class ClienteController {
 
 	@Autowired
@@ -49,6 +49,20 @@ public class ClienteController {
 	@GetMapping("/cpf/{cpf}")
     public ResponseEntity<ClienteResponseDTO> findByCpf(@PathVariable String cpf) {
         Cliente cliente = clienteService.findByCpf(cpf);
+        ClienteResponseDTO clienteDTO = convertToDTO(cliente);
+        return ResponseEntity.ok(clienteDTO);
+    }
+	
+	@GetMapping("/email/{email}")
+    public ResponseEntity<ClienteResponseDTO> findByEmail(@PathVariable String email) {
+        Cliente cliente = clienteService.findByEmail(email);
+        
+        if(cliente == null) {
+        	return ResponseEntity.notFound().build();
+        }
+        
+        System.out.println(cliente);
+        
         ClienteResponseDTO clienteDTO = convertToDTO(cliente);
         return ResponseEntity.ok(clienteDTO);
     }
@@ -123,6 +137,8 @@ public class ClienteController {
 	
 	@PostMapping("/nome/{nome}")
 	public ResponseEntity<Usuario> createUsuarioCliente(@PathVariable String nome) {
+		
+		System.out.println("nome:" + nome);
 		
 		Optional<Cliente> cliente = clienteService.findByNome(nome);
 		
