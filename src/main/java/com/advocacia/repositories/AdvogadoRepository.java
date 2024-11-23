@@ -10,6 +10,6 @@ public interface AdvogadoRepository extends JpaRepository<Advogado, Integer>  {
 
 	Advogado findByNumeroOrdem(String numeroOrdem);
 
-	
+	Advogado findByEmail(String email);
 	
 }

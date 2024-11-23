@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,6 +26,7 @@ import com.advocacia.services.UsuarioService;
 
 @RestController
 @RequestMapping("/advogados")
+@CrossOrigin("http://localhost:4200")
 public class AdvogadoController {
 
 	@Autowired
@@ -39,6 +41,16 @@ public class AdvogadoController {
 	@GetMapping
 	public List<Advogado> findAll() {
 		return advogadoService.findAll();
+	}
+	
+	@GetMapping("/email/{email}")
+	public Advogado findByEmail(@PathVariable String email) {
+		return advogadoService.findByEmail(email);
+	}
+	
+	@GetMapping("/numeroOrdem/{numeroOrdem}")
+	public Advogado findByNumeroOrdem(String numeroOrdem) {
+		return advogadoService.findByNumeroOrdem(numeroOrdem);
 	}
 	
 	@PostMapping
