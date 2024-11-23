@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.advocacia.dto.ClienteResponseDTO;
 import com.advocacia.dto.UsuarioDTO;
+import com.advocacia.dto.UsuarioNoPassDTO;
 import com.advocacia.entities.Cliente;
 import com.advocacia.entities.Status;
 import com.advocacia.entities.Tipo_Usuario;
@@ -43,6 +45,13 @@ public class ClienteController {
 	public List<Cliente> findAll() {
 		return clienteService.findAll();
 	}
+	
+	@GetMapping("/cpf/{cpf}")
+    public ResponseEntity<ClienteResponseDTO> findByCpf(@PathVariable String cpf) {
+        Cliente cliente = clienteService.findByCpf(cpf);
+        ClienteResponseDTO clienteDTO = convertToDTO(cliente);
+        return ResponseEntity.ok(clienteDTO);
+    }
 
 	//Resolver retorno de cliente com todos os atributos
 	@PostMapping
@@ -123,13 +132,16 @@ public class ClienteController {
 		
 		Cliente existingCliente = cliente.get();
 		
+		String name = existingCliente.getNome();
+		
 		String username = existingCliente.getEmail();
 		
 		String password = "clienteAdvocacia" + existingCliente.getCpf();
 		
-		System.out.println(password);
+		//System.out.println(password);
 		
 		Usuario usuario = new Usuario();
+		usuario.setName(name);
 		usuario.setUsername(username);
 		usuario.setPassword(password);
 		
@@ -146,10 +158,46 @@ public class ClienteController {
 		
 		Usuario savedUsuario = usuarioService.save(usuario);
 		
-		savedUsuario.setPassword(password);
+		existingCliente.setUsuario(savedUsuario);
+		
+		System.out.println(existingCliente.getUsuario());
+		
+		Cliente updatedCliente = clienteService.updateCliente(existingCliente);
 		
 		return ResponseEntity.ok(savedUsuario);
 		
 	}
+	
+	private ClienteResponseDTO convertToDTO(Cliente cliente) {
+        ClienteResponseDTO dto = new ClienteResponseDTO();
+        // Copiar propriedades básicas
+        dto.setId(cliente.getId());
+        dto.setNome(cliente.getNome());
+        dto.setEmail(cliente.getEmail());
+        dto.setCpf(cliente.getCpf());
+        dto.setRg(cliente.getRg());
+        dto.setTelefone(cliente.getTelefone());
+        dto.setEndereco(cliente.getEndereco());
+        dto.setNome_pai(cliente.getNome_pai());
+        dto.setNome_mae(cliente.getNome_mae());
+        dto.setCtps(cliente.getCtps());
+        dto.setCnh(cliente.getCnh());
+        dto.setData_nascimento(cliente.getData_nascimento());
+        dto.setStatus(cliente.getStatus());
+
+        // Converter Usuario para UsuarioNoPassDTO
+        if (cliente.getUsuario() != null) {
+            UsuarioNoPassDTO usuarioDTO = new UsuarioNoPassDTO();
+            Usuario usuario = cliente.getUsuario();
+            usuarioDTO.setId(usuario.getId());
+            usuarioDTO.setUsername(usuario.getUsername());
+            usuarioDTO.setName(usuario.getName());
+            usuarioDTO.setStatus(usuario.getStatus());
+            usuarioDTO.setTipoUsuario(usuario.getTipo_Usuario());
+            dto.setUsuario(usuarioDTO);
+        }
+
+        return dto;
+    }
 	
 }

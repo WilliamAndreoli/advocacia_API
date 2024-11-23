@@ -62,7 +62,7 @@ public class WebSecurityConfig {
 							.requestMatchers(HttpMethod.GET,"/advogados/**").hasAnyRole("ADVOGADO", "ADMIN")
 							.requestMatchers(HttpMethod.POST,"/advogados/**").hasRole("ADMIN")
 							.requestMatchers(HttpMethod.PUT,"/advogados/**").hasRole("ADMIN")	
-							.requestMatchers(HttpMethod.GET,"/processos/**").hasAnyRole("ADVOGADO", "ADMIN")
+							.requestMatchers(HttpMethod.GET,"/processos/**").hasAnyRole("ADVOGADO", "ADMIN", "CLIENTE")
 							.requestMatchers(HttpMethod.POST,"/processos/**").hasAnyRole("ADMIN", "ADVOGADO")
 							.requestMatchers(HttpMethod.PUT,"/processos/**").hasAnyRole("ADMIN", "ADVOGADO")	
 							.requestMatchers(HttpMethod.GET,"/documentosProcesso/**").hasAnyRole("ADVOGADO", "ADMIN", "CLIENTE")

@@ -1,5 +1,9 @@
 package com.advocacia.dto;
 
+import java.util.Collection;
+
+import org.springframework.security.core.GrantedAuthority;
+
 import com.advocacia.entities.Status;
 import com.advocacia.entities.Tipo_Usuario;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -64,5 +68,6 @@ public class UsuarioNoPassDTO {
     public void setTipoUsuario(Tipo_Usuario tipoUsuario) {
         this.tipoUsuario = tipoUsuario;
     }
+
 	
 }
