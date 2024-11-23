@@ -93,11 +93,14 @@ public class AdvogadoController {
 		
 		String username = advogado.getEmail();
 		
+		String name = advogado.getNome();
+		
 		String password = "advogadoAdvocacia" + advogado.getNumeroOrdem();
 		
 		Usuario usuario = new Usuario();
 		usuario.setUsername(username);
 		usuario.setPassword(password);
+		usuario.setName(name);
 		
 		Tipo_Usuario tipo = tipo_UsuarioService.findByDescricao("ADVOGADO");
 		
