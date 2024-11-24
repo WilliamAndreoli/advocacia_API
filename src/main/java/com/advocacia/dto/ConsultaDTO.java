@@ -1,5 +1,6 @@
 package com.advocacia.dto;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import com.advocacia.entities.StatusConsulta;
@@ -7,17 +8,17 @@ import com.advocacia.entities.StatusConsulta;
 public class ConsultaDTO {
 	private Integer id;
 	private Double valor;
-	private Date dataMarcada;
-	private Date dataRealizada;
+	private LocalDateTime dataMarcada;
+	private LocalDateTime dataRealizada;
 	private String pagamento;
-	private Date dataPagamento;
+	private LocalDateTime dataPagamento;
 	private String meioPagamento;
 	private String resumo;
 	private StatusConsulta status;
 	private ClienteDTO cliente;
 
-	public ConsultaDTO(Integer id, Double valor, Date dataMarcada, Date dataRealizada, String pagamento,
-			Date dataPagamento, String meioPagamento, String resumo, StatusConsulta status, ClienteDTO cliente) {
+	public ConsultaDTO(Integer id, Double valor, LocalDateTime dataMarcada, LocalDateTime dataRealizada, String pagamento,
+			LocalDateTime dataPagamento, String meioPagamento, String resumo, StatusConsulta status, ClienteDTO cliente) {
 		this.id = id;
 		this.valor = valor;
 		this.dataMarcada = dataMarcada;
@@ -47,19 +48,19 @@ public class ConsultaDTO {
 		this.valor = valor;
 	}
 
-	public Date getDataMarcada() {
+	public LocalDateTime getDataMarcada() {
 		return dataMarcada;
 	}
 
-	public void setDataMarcada(Date dataMarcada) {
+	public void setDataMarcada(LocalDateTime dataMarcada) {
 		this.dataMarcada = dataMarcada;
 	}
 
-	public Date getDataRealizada() {
+	public LocalDateTime getDataRealizada() {
 		return dataRealizada;
 	}
 
-	public void setDataRealizada(Date dataRealizada) {
+	public void setDataRealizada(LocalDateTime dataRealizada) {
 		this.dataRealizada = dataRealizada;
 	}
 
@@ -71,11 +72,11 @@ public class ConsultaDTO {
 		this.pagamento = pagamento;
 	}
 
-	public Date getDataPagamento() {
+	public LocalDateTime getDataPagamento() {
 		return dataPagamento;
 	}
 
-	public void setDataPagamento(Date dataPagamento) {
+	public void setDataPagamento(LocalDateTime dataPagamento) {
 		this.dataPagamento = dataPagamento;
 	}
 

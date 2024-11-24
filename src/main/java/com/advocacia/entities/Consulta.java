@@ -1,5 +1,6 @@
 package com.advocacia.entities;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Objects;
 
@@ -22,15 +23,15 @@ public class Consulta {
 	private Double valor;
 	
 	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-	private Date data_marcada;
+	private LocalDateTime data_marcada;
 	
 	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-	private Date data_realizada;
+	private LocalDateTime data_realizada;
 	
 	private String pagamento;
 	
 	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-	private Date data_pagamento;
+	private LocalDateTime data_pagamento;
 	
 	private String meio_pagamento;
 	
@@ -44,8 +45,8 @@ public class Consulta {
 
 	public Consulta() {}
 
-	public Consulta(Integer id, Double valor, Date data_marcada, Date data_realizada, String pagamento,
-			Date data_pagamento, String meio_pagamento, String resumo, StatusConsulta status, Cliente cliente) {
+	public Consulta(Integer id, Double valor, LocalDateTime data_marcada, LocalDateTime data_realizada, String pagamento,
+			LocalDateTime data_pagamento, String meio_pagamento, String resumo, StatusConsulta status, Cliente cliente) {
 		super();
 		this.id = id;
 		this.valor = valor;
@@ -75,19 +76,19 @@ public class Consulta {
 		this.valor = valor;
 	}
 
-	public Date getData_marcada() {
+	public LocalDateTime getData_marcada() {
 		return data_marcada;
 	}
 
-	public void setData_marcada(Date data_marcada) {
+	public void setData_marcada(LocalDateTime data_marcada) {
 		this.data_marcada = data_marcada;
 	}
 
-	public Date getData_realizada() {
+	public LocalDateTime getData_realizada() {
 		return data_realizada;
 	}
 
-	public void setData_realizada(Date data_realizada) {
+	public void setData_realizada(LocalDateTime data_realizada) {
 		this.data_realizada = data_realizada;
 	}
 
@@ -99,11 +100,11 @@ public class Consulta {
 		this.pagamento = pagamento;
 	}
 
-	public Date getData_pagamento() {
+	public LocalDateTime getData_pagamento() {
 		return data_pagamento;
 	}
 
-	public void setData_pagamento(Date data_pagamento) {
+	public void setData_pagamento(LocalDateTime data_pagamento) {
 		this.data_pagamento = data_pagamento;
 	}
 
