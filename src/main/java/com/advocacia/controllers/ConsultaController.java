@@ -5,6 +5,9 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -49,6 +52,40 @@ public class ConsultaController {
 	    
 	    return ResponseEntity.ok(consultaDTOs);
 	}
+	
+	 @GetMapping("/pageable")
+	    public Page<ConsultaDTO> getAllUsuariosAtivos(Pageable pageable) {
+	        Page<Consulta> consultas = consultaService.findAllPageable(pageable);
+	        
+	        List<ConsultaDTO> consultaDTOList = consultas.getContent().stream()
+	            .map(consulta -> {
+	                Cliente cliente = consulta.getCliente();
+	                ClienteDTO clienteDTO = new ClienteDTO(
+	                    cliente.getId(), 
+	                    cliente.getNome()
+	                );
+	                
+	                return new ConsultaDTO(
+	                    consulta.getId(),
+	                    consulta.getValor(),
+	                    consulta.getData_marcada(),
+	                    consulta.getData_realizada(),
+	                    consulta.getPagamento(),
+	                    consulta.getData_pagamento(),
+	                    consulta.getMeio_pagamento(),
+	                    consulta.getResumo(),
+	                    consulta.getStatus(),
+	                    clienteDTO
+	                );
+	            })
+	            .collect(Collectors.toList());
+	            
+	        return new PageImpl<>(
+	            consultaDTOList,
+	            pageable,
+	            consultas.getTotalElements()
+	        );
+	    }
 	
 	@GetMapping("/cliente/{nomecliente}")
 	public ResponseEntity<List<ConsultaDTO>> findAllConsultaCliente(@PathVariable String nomecliente) {
