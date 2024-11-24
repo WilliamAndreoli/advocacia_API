@@ -54,7 +54,7 @@ public class ConsultaController {
 	}
 	
 	 @GetMapping("/pageable")
-	    public Page<ConsultaDTO> getAllUsuariosAtivos(Pageable pageable) {
+	    public Page<ConsultaDTO> getAllConsultasAtivos(Pageable pageable) {
 	        Page<Consulta> consultas = consultaService.findAllPageable(pageable);
 	        
 	        List<ConsultaDTO> consultaDTOList = consultas.getContent().stream()

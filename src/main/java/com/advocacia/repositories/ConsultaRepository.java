@@ -9,7 +9,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.advocacia.entities.Consulta;
-import com.advocacia.entities.Usuario;
 
 public interface ConsultaRepository extends JpaRepository<Consulta, Integer> {
 

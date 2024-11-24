@@ -3,6 +3,8 @@ package com.advocacia.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.advocacia.entities.Processo;
@@ -18,6 +20,10 @@ public class ProcessoService {
 		return processoRepository.findAll();
 	}
 	
+	public Page<Processo> findAllPageable(Pageable pageable) {
+        return processoRepository.findAll(pageable);
+    }
+	
 	public Processo findByNumeroProcesso(String numeroProcesso) {
 		return processoRepository.findByNumeroProcesso(numeroProcesso);
 	}
@@ -26,8 +32,8 @@ public class ProcessoService {
 		return processoRepository.findByClienteCpf(cpf);
 	}
 	
-	public List<Processo> findByAdvogadoNumeroOrdem(String numeroOrdem) {
-		return processoRepository.findByAdvogadoNumeroOrdem(numeroOrdem);
+	public Page<Processo> findByAdvogadoNumeroOrdem(String numeroOrdem, Pageable pageable) {
+		return processoRepository.findByAdvogadoNumeroOrdemPageable(numeroOrdem, pageable);
 	}
 	
 	public Processo save(Processo processo) {

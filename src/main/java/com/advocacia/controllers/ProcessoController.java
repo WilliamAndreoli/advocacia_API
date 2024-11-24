@@ -3,6 +3,9 @@ package com.advocacia.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,12 +14,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.advocacia.entities.Advogado;
 import com.advocacia.entities.Cliente;
 import com.advocacia.entities.Processo;
-import com.advocacia.entities.StatusProcesso;
 import com.advocacia.exceptions.ProcessoErrorException;
 import com.advocacia.services.AdvogadoService;
 import com.advocacia.services.ClienteService;
@@ -53,9 +56,13 @@ public class ProcessoController {
 	}
 	
 	@GetMapping("/advogado/{numeroOrdem}")
-	public ResponseEntity<List<Processo>> findByAdvogadoNumeroOrdem(@PathVariable String numeroOrdem) {
-		List<Processo> processos = processoService.findByAdvogadoNumeroOrdem(numeroOrdem);
-		return ResponseEntity.ok(processos);
+	public Page<Processo> findByAdvogadoPageable(@PathVariable String numeroOrdem, @RequestParam(defaultValue = "0") int page,
+			@RequestParam(defaultValue = "10") int size) {
+		Pageable pageable = PageRequest.of(page,  size);
+		
+		Page<Processo> processos = processoService.findByAdvogadoNumeroOrdem(numeroOrdem, pageable);
+		
+		return processos;
 	}
 	
 	@PostMapping
