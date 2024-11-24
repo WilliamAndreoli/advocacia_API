@@ -44,7 +44,7 @@ public class ConsultaController {
 	        ClienteDTO clienteDTO = new ClienteDTO(cliente.getId(), cliente.getNome());
 	        return new ConsultaDTO(consulta.getId(), consulta.getValor(), consulta.getData_marcada(),
 	                consulta.getData_realizada(), consulta.getPagamento(), consulta.getData_pagamento(),
-	                consulta.getMeio_pagamento(), consulta.getResumo(), clienteDTO);
+	                consulta.getMeio_pagamento(), consulta.getResumo(), consulta.getStatus(), clienteDTO);
 	    }).collect(Collectors.toList());
 	    
 	    return ResponseEntity.ok(consultaDTOs);
@@ -66,7 +66,7 @@ public class ConsultaController {
 	        ClienteDTO clienteDTO = new ClienteDTO(cliente.getId(), cliente.getNome());
 	        return new ConsultaDTO(consulta.getId(), consulta.getValor(), consulta.getData_marcada(),
 	                consulta.getData_realizada(), consulta.getPagamento(), consulta.getData_pagamento(),
-	                consulta.getMeio_pagamento(), consulta.getResumo(), clienteDTO);
+	                consulta.getMeio_pagamento(), consulta.getResumo(), consulta.getStatus(), clienteDTO);
 	    }).collect(Collectors.toList());
 	    
 	    return ResponseEntity.ok(consultaDTOs);
@@ -88,7 +88,7 @@ public class ConsultaController {
 		ClienteDTO clienteDTO = new ClienteDTO(cliente.getId(), cliente.getNome());
 		
         ConsultaDTO consultaDto = new ConsultaDTO(novaConsulta.getId(), novaConsulta.getValor(), novaConsulta.getData_marcada(), novaConsulta.getData_realizada(), novaConsulta.getPagamento(), novaConsulta.getData_pagamento(), 
-				novaConsulta.getMeio_pagamento(), novaConsulta.getResumo(), clienteDTO);
+				novaConsulta.getMeio_pagamento(), novaConsulta.getResumo(), novaConsulta.getStatus(), clienteDTO);
         
 		return ResponseEntity.ok(consultaDto);
     }
@@ -124,7 +124,7 @@ public class ConsultaController {
 		ClienteDTO clienteDTO = new ClienteDTO(cliente.getId(), cliente.getNome());
 		
 		ConsultaDTO consultaDTO = new ConsultaDTO(updatedConsulta.getId(), updatedConsulta.getValor(), updatedConsulta.getData_marcada(), updatedConsulta.getData_realizada(), updatedConsulta.getPagamento(), updatedConsulta.getData_pagamento(), 
-				updatedConsulta.getMeio_pagamento(), updatedConsulta.getResumo(), clienteDTO);
+				updatedConsulta.getMeio_pagamento(), updatedConsulta.getResumo(), updatedConsulta.getStatus(), clienteDTO);
 		
 		return ResponseEntity.ok(consultaDTO);
 	}

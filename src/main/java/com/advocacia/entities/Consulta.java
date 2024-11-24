@@ -36,6 +36,8 @@ public class Consulta {
 	
 	private String resumo;
 	
+	private StatusConsulta status;
+	
 	@OneToOne
 	@JoinColumn(name = "cliente_id")
 	private Cliente cliente;
@@ -43,7 +45,7 @@ public class Consulta {
 	public Consulta() {}
 
 	public Consulta(Integer id, Double valor, Date data_marcada, Date data_realizada, String pagamento,
-			Date data_pagamento, String meio_pagamento, String resumo, Cliente cliente) {
+			Date data_pagamento, String meio_pagamento, String resumo, StatusConsulta status, Cliente cliente) {
 		super();
 		this.id = id;
 		this.valor = valor;
@@ -53,6 +55,7 @@ public class Consulta {
 		this.data_pagamento = data_pagamento;
 		this.meio_pagamento = meio_pagamento;
 		this.resumo = resumo;
+		this.status = status;
 		this.cliente = cliente;
 	}
 
@@ -110,6 +113,14 @@ public class Consulta {
 
 	public void setMeio_pagamento(String meio_pagamento) {
 		this.meio_pagamento = meio_pagamento;
+	}
+
+	public StatusConsulta getStatus() {
+		return status;
+	}
+
+	public void setStatus(StatusConsulta status) {
+		this.status = status;
 	}
 
 	public String getResumo() {

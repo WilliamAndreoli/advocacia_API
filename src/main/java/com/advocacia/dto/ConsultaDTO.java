@@ -2,6 +2,8 @@ package com.advocacia.dto;
 
 import java.util.Date;
 
+import com.advocacia.entities.StatusConsulta;
+
 public class ConsultaDTO {
 	private Integer id;
 	private Double valor;
@@ -11,10 +13,11 @@ public class ConsultaDTO {
 	private Date dataPagamento;
 	private String meioPagamento;
 	private String resumo;
+	private StatusConsulta status;
 	private ClienteDTO cliente;
 
 	public ConsultaDTO(Integer id, Double valor, Date dataMarcada, Date dataRealizada, String pagamento,
-			Date dataPagamento, String meioPagamento, String resumo, ClienteDTO cliente) {
+			Date dataPagamento, String meioPagamento, String resumo, StatusConsulta status, ClienteDTO cliente) {
 		this.id = id;
 		this.valor = valor;
 		this.dataMarcada = dataMarcada;
@@ -23,6 +26,7 @@ public class ConsultaDTO {
 		this.dataPagamento = dataPagamento;
 		this.meioPagamento = meioPagamento;
 		this.resumo = resumo;
+		this.status = status;
 		this.cliente = cliente;
 	}
 
@@ -90,6 +94,16 @@ public class ConsultaDTO {
 	public void setResumo(String resumo) {
 		this.resumo = resumo;
 	}
+	
+	public StatusConsulta getStatus() {
+		return status;
+	}
+
+
+	public void setStatus(StatusConsulta status) {
+		this.status = status;
+	}
+
 
 	public ClienteDTO getCliente() {
 		return cliente;
