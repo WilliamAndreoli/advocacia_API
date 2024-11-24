@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.advocacia.dto.ClienteResponseDTO;
@@ -46,6 +48,14 @@ public class ClienteController {
 		return clienteService.findAll();
 	}
 	
+	@GetMapping("/ativos")
+    public Page<Cliente> getAllClientesAtivos(
+    		@RequestParam(defaultValue = "0")int page,
+    		@RequestParam(defaultValue = "10") int size) {
+        Page<Cliente> clientes = clienteService.findAllAtivos(page, size);
+        return clientes;
+    }
+	
 	@GetMapping("/cpf/{cpf}")
     public ResponseEntity<ClienteResponseDTO> findByCpf(@PathVariable String cpf) {
         Cliente cliente = clienteService.findByCpf(cpf);
@@ -67,7 +77,7 @@ public class ClienteController {
         return ResponseEntity.ok(clienteDTO);
     }
 
-	//Resolver retorno de cliente com todos os atributos
+
 	@PostMapping
 	public Cliente createCliente(@RequestBody Cliente cliente) {
         
