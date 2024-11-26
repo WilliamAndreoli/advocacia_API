@@ -104,7 +104,9 @@ public class ClienteController {
 	
 	@PutMapping("/cpf/{cpf}")
 	public ResponseEntity<Cliente> updateCliente(@PathVariable String cpf, @RequestBody Cliente clienteDetails) {
-		
+		System.out.println(clienteDetails.getNome());
+		System.out.println(clienteDetails.getNome_pai());
+		System.out.println(clienteDetails.getEndereco());
 		Cliente cliente = clienteService.findByCpf(cpf);
 		
 		if (cliente == null) {
@@ -114,17 +116,73 @@ public class ClienteController {
 		Cliente updateCliente = new Cliente();
 		
 		updateCliente.setId(cliente.getId());
-		updateCliente.setNome(clienteDetails.getNome());
-		updateCliente.setEmail(clienteDetails.getEmail());
-		updateCliente.setCpf(clienteDetails.getCpf());
-		updateCliente.setRg(clienteDetails.getRg());
-		updateCliente.setTelefone(clienteDetails.getTelefone());
-		updateCliente.setEndereco(clienteDetails.getEndereco());
-		updateCliente.setNome_pai(clienteDetails.getNome_pai());
-		updateCliente.setNome_mae(clienteDetails.getNome_mae());
-		updateCliente.setCtps(clienteDetails.getCtps());
-		updateCliente.setCnh(clienteDetails.getCnh());
-		updateCliente.setData_nascimento(clienteDetails.getData_nascimento());
+		if(clienteDetails.getNome() != null) {
+			updateCliente.setNome(clienteDetails.getNome());	
+		} else {
+			updateCliente.setNome(cliente.getNome());
+		}
+		
+		if(clienteDetails.getEmail() != null) {
+			updateCliente.setEmail(clienteDetails.getEmail());	
+		} else {
+			updateCliente.setEmail(cliente.getEmail());
+		}
+		
+		if(clienteDetails.getCpf() != null) {
+			updateCliente.setCpf(clienteDetails.getCpf());	
+		} else {
+			updateCliente.setCpf(cliente.getCpf());
+		}
+		
+		if(clienteDetails.getRg() != null) {
+			updateCliente.setRg(clienteDetails.getRg());	
+		} else {
+			updateCliente.setRg(cliente.getRg());
+		}
+		
+		if(clienteDetails.getTelefone() != null) {
+			updateCliente.setTelefone(clienteDetails.getTelefone());	
+		} else {
+			updateCliente.setTelefone(cliente.getTelefone());
+		}
+		
+		if(clienteDetails.getEndereco() != null) {
+			updateCliente.setEndereco(clienteDetails.getEndereco());	
+		} else {
+			updateCliente.setEndereco(cliente.getEndereco());
+		}
+		
+		if(clienteDetails.getNome_pai() != null) {
+			updateCliente.setNome_pai(clienteDetails.getNome_pai());	
+		} else {
+			updateCliente.setNome_pai(cliente.getNome_pai());
+		}
+		
+		if(clienteDetails.getNome_mae() != null) {
+			updateCliente.setNome_mae(clienteDetails.getNome_mae());	
+		} else {
+			updateCliente.setNome_mae(cliente.getNome_mae());
+		}
+
+		if(clienteDetails.getCtps() != null) {
+			updateCliente.setCtps(clienteDetails.getCtps());	
+		} else {
+			updateCliente.setCtps(cliente.getCtps());
+		}
+		
+		if(clienteDetails.getCnh() != null) {
+			updateCliente.setCnh(clienteDetails.getCnh());	
+		} else {
+			updateCliente.setCnh(cliente.getCnh());
+		}
+		
+		if (clienteDetails.getData_nascimento() != null) {
+			updateCliente.setData_nascimento(clienteDetails.getData_nascimento());	
+		} else {
+			updateCliente.setData_nascimento(cliente.getData_nascimento());
+		}
+		
+		updateCliente.setUsuario(cliente.getUsuario());
 		
 		clienteService.updateCliente(updateCliente);
 		
