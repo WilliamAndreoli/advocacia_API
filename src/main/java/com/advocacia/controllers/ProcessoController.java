@@ -88,6 +88,76 @@ public class ProcessoController {
 		return processoService.save(processoDetails);
 	}
 	
+	@PutMapping("/numeroProcesso/{numeroProcesso}")
+	public Processo updateProcesso(@PathVariable String numeroProcesso, @RequestBody Processo processoDetails) {
+		Processo processo = processoService.findByNumeroProcesso(numeroProcesso);
+		
+		if(processo == null) {
+			throw new ProcessoErrorException("Processo não encontrado com o numero: " + numeroProcesso);
+		}
+		
+		Processo updateProcesso = new Processo();
+		
+		updateProcesso.setId(processo.getId());
+		
+		if(processoDetails.getNumeroProcesso() == null) {
+			updateProcesso.setNumero_processo(processo.getNumeroProcesso());
+		} else {
+			updateProcesso.setNumero_processo(processoDetails.getNumeroProcesso());
+		}
+		
+		if(processoDetails.getJuiz() == null) {
+			updateProcesso.setJuiz(processo.getJuiz());
+		} else {
+			updateProcesso.setJuiz(processoDetails.getJuiz());
+		}
+		
+		if(processoDetails.getArea() == null) {
+			updateProcesso.setArea(processo.getArea());
+		} else {
+			updateProcesso.setArea(processoDetails.getArea());
+		}
+		
+		if(processoDetails.getComarca() == null) {
+			updateProcesso.setComarca(processo.getArea());
+		} else {
+			updateProcesso.setComarca(processoDetails.getArea());
+		}
+		
+		if(processoDetails.getStatus() == null) {
+			updateProcesso.setStatus(processo.getStatus());
+		} else {
+			updateProcesso.setStatus(processoDetails.getStatus());
+		}
+		
+		if(processoDetails.getValor_processo() == null) {
+			updateProcesso.setValor_processo(processo.getValor_processo());
+		} else {
+			updateProcesso.setValor_processo(processoDetails.getValor_processo());
+		}
+		
+		if(processoDetails.getAdvogado() == null) {
+			updateProcesso.setAdvogado(processo.getAdvogado());
+		} else {
+			updateProcesso.setAdvogado(processoDetails.getAdvogado());
+		}
+		
+		if(processoDetails.getCliente() == null) {
+			updateProcesso.setCliente(processo.getCliente());
+		} else {
+			updateProcesso.setCliente(processoDetails.getCliente());
+		}
+		
+		if(processoDetails.getDocumentosProcesso() == null) {
+			updateProcesso.setDocumentosProcesso(processo.getDocumentosProcesso());
+		} else {
+			updateProcesso.setDocumentosProcesso(processoDetails.getDocumentosProcesso());
+		}
+		
+		return processoService.save(updateProcesso);
+		
+	}
+	
 	@PutMapping("/status/{numeroProcesso}")
 	public Processo alteraStatus(@PathVariable String numeroProcesso, @RequestBody Processo processoDetails) {
 
