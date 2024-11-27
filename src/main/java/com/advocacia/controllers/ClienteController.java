@@ -48,6 +48,20 @@ public class ClienteController {
 		return clienteService.findAll();
 	}
 	
+	@GetMapping("/nome/{nome}")
+	public ResponseEntity<ClienteResponseDTO> findByNome(@PathVariable String nome) {
+        Optional<Cliente> cliente = clienteService.findByNome(nome);
+
+        Cliente existingCliente = cliente.get();
+        
+        if(existingCliente == null) {
+        	ResponseEntity.notFound().build();
+        }
+        
+        ClienteResponseDTO clienteDTO = convertToDTO(existingCliente);
+        return ResponseEntity.ok(clienteDTO);
+    }
+	
 	@GetMapping("/ativos")
     public Page<Cliente> getAllClientesAtivos(
     		@RequestParam(defaultValue = "0")int page,
