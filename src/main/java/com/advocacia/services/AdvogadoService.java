@@ -25,6 +25,10 @@ public class AdvogadoService {
 		return advogadoRepository.findByEmail(email);
 	}
 	
+	public Advogado findByNome(String nome) {
+		return advogadoRepository.findByNome(nome);
+	}
+	
 	public Advogado save(Advogado advogado) {
 		return advogadoRepository.save(advogado);
 	}

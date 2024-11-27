@@ -7,7 +7,9 @@ import com.advocacia.entities.Advogado;
 public interface AdvogadoRepository extends JpaRepository<Advogado, Integer>  {
 
 	void deleteByNumeroOrdem(String numeroOrdem);
-
+	
+	Advogado findByNome(String nome);
+	
 	Advogado findByNumeroOrdem(String numeroOrdem);
 
 	Advogado findByEmail(String email);

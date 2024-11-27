@@ -48,6 +48,11 @@ public class AdvogadoController {
 		return advogadoService.findByEmail(email);
 	}
 	
+	@GetMapping("/nome/{nome}")
+	public Advogado findByNome(@PathVariable String nome) {
+		return advogadoService.findByNome(nome);
+	}
+	
 	@GetMapping("/numeroOrdem/{numeroOrdem}")
 	public Advogado findByNumeroOrdem(String numeroOrdem) {
 		return advogadoService.findByNumeroOrdem(numeroOrdem);
