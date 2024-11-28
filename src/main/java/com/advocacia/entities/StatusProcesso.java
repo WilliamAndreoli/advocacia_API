@@ -2,9 +2,15 @@ package com.advocacia.entities;
 
 public enum StatusProcesso {
 	INICIAL,
-    CONCLUSO_JULGAMENTO,
-    SENTENCIADO,
+	CONTESTAÇÃO,
+	IMPUGNAÇÃO,
+	INSTRUÇÃO_JULGAMENTO,
+    SENTENÇA,
+    EM_RECURSO,
     TRANSITO_JULGADO,
-    EM_RECURSO;
+    BAIXADO,
+    ARQUIVADO,
+    SUSPENSO,
+    CUMPRIMENTO;
 }
 
