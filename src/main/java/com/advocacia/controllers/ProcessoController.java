@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.advocacia.entities.Advogado;
 import com.advocacia.entities.Cliente;
 import com.advocacia.entities.Processo;
+import com.advocacia.entities.StatusProcesso;
 import com.advocacia.exceptions.ProcessoErrorException;
 import com.advocacia.services.AdvogadoService;
 import com.advocacia.services.ClienteService;
@@ -49,6 +50,7 @@ public class ProcessoController {
 		return processoService.findByNumeroProcesso(numeroProcesso);
 	}
 	
+	
 	@GetMapping("/cliente/{cpf}")
 	public ResponseEntity<List<Processo>> findByClienteCpf(@PathVariable String cpf) {
 		List<Processo> processos = processoService.findByClienteCpf(cpf);
@@ -61,6 +63,71 @@ public class ProcessoController {
 		Pageable pageable = PageRequest.of(page,  size);
 		
 		Page<Processo> processos = processoService.findByAdvogadoNumeroOrdem(numeroOrdem, pageable);
+		
+		return processos;
+	}
+
+	@GetMapping("/status/{status}")
+	public Page<Processo> findByStatusPageable(@PathVariable String status, @RequestParam(defaultValue = "0") int page,
+			@RequestParam(defaultValue = "10") int size) {
+		Pageable pageable = PageRequest.of(page,  size);
+		
+		StatusProcesso statusProcesso = StatusProcesso.INICIAL;
+		
+		System.out.println(status);
+		
+		if (status != null) {
+			switch (status) {
+			case "INICIAL": {
+				statusProcesso = StatusProcesso.INICIAL;
+				break;
+			}
+			case "CONTESTAÇÃO": {
+				statusProcesso = StatusProcesso.CONTESTAÇÃO;
+				break;
+			}
+			case "IMPUGNAÇÃO": {
+				statusProcesso = StatusProcesso.IMPUGNAÇÃO;
+				break;
+			}
+			case "INSTRUÇÃO_JULGAMENTO": {
+				statusProcesso = StatusProcesso.INSTRUÇÃO_JULGAMENTO;
+				break;
+			}
+			case "SENTENÇA": {
+				statusProcesso = StatusProcesso.SENTENÇA;
+				break;
+			}
+			case "EM_RECURSO": {
+				statusProcesso = StatusProcesso.EM_RECURSO;
+				break;
+			}
+			case "TRANSITO_JULGADO": {
+				statusProcesso = StatusProcesso.TRANSITO_JULGADO;
+				break;
+			}
+			case "BAIXADO": {
+				statusProcesso = StatusProcesso.BAIXADO;
+				break;
+			}
+			case "ARQUIVADO": {
+				statusProcesso = StatusProcesso.ARQUIVADO;
+				break;
+			}
+			case "SUSPENSO": {
+				statusProcesso = StatusProcesso.SUSPENSO;
+				break;
+			}
+			case "CUMPRIMENTO": {
+				statusProcesso = StatusProcesso.CUMPRIMENTO;
+				break;
+			}
+			default:
+				throw new IllegalArgumentException("Unexpected value: " + status);
+			}
+		}
+		
+		Page<Processo> processos = processoService.findAllPageableStatus(statusProcesso, pageable);
 		
 		return processos;
 	}

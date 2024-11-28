@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.advocacia.entities.Processo;
+import com.advocacia.entities.StatusProcesso;
 import com.advocacia.repositories.ProcessoRepository;
 
 @Service
@@ -22,6 +23,10 @@ public class ProcessoService {
 	
 	public Page<Processo> findAllPageable(Pageable pageable) {
         return processoRepository.findAll(pageable);
+    }
+	
+	public Page<Processo> findAllPageableStatus(StatusProcesso status, Pageable pageable) {
+        return processoRepository.findByStatusPageable(status ,pageable);
     }
 	
 	public Processo findByNumeroProcesso(String numeroProcesso) {
