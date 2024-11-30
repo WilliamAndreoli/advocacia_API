@@ -1,16 +1,19 @@
 package com.advocacia.dto;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 import com.advocacia.entities.StatusConsulta;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class ConsultaDTO {
 	private Integer id;
 	private Double valor;
+	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
 	private LocalDateTime dataMarcada;
+	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
 	private LocalDateTime dataRealizada;
 	private String pagamento;
+	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
 	private LocalDateTime dataPagamento;
 	private String meioPagamento;
 	private String resumo;

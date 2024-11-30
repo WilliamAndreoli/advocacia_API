@@ -28,7 +28,7 @@ public class Consulta {
 	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
 	private LocalDateTime data_realizada;
 	
-	private String pagamento;
+	private String pagamento = "N_PAGO";
 	
 	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
 	private LocalDateTime data_pagamento;
@@ -37,7 +37,7 @@ public class Consulta {
 	
 	private String resumo;
 	
-	private StatusConsulta status;
+	private StatusConsulta status = StatusConsulta.PENDENTE;
 	
 	@OneToOne
 	@JoinColumn(name = "cliente_id")
