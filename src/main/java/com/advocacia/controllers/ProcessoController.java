@@ -66,6 +66,16 @@ public class ProcessoController {
 		
 		return processos;
 	}
+	
+	@GetMapping("/comarca/{comarca}")
+	public Page<Processo> findByComarcaPageable(@PathVariable String comarca, @RequestParam(defaultValue = "0") int page,
+			@RequestParam(defaultValue = "10") int size) {
+		Pageable pageable = PageRequest.of(page,  size);
+		
+		Page<Processo> processos = processoService.findAllPageableComarca(comarca, pageable);
+		
+		return processos;
+	}
 
 	@GetMapping("/status/{status}")
 	public Page<Processo> findByStatusPageable(@PathVariable String status, @RequestParam(defaultValue = "0") int page,

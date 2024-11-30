@@ -29,6 +29,10 @@ public class ProcessoService {
         return processoRepository.findByStatusPageable(status ,pageable);
     }
 	
+	public Page<Processo> findAllPageableComarca(String comarca, Pageable pageable) {
+        return processoRepository.findByComarcaPageable(comarca ,pageable);
+    }
+	
 	public Processo findByNumeroProcesso(String numeroProcesso) {
 		return processoRepository.findByNumeroProcesso(numeroProcesso);
 	}

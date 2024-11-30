@@ -27,6 +27,9 @@ public interface ProcessoRepository extends JpaRepository<Processo, Integer> {
 	@Query("SELECT p FROM Processo p WHERE p.status = :status")
     Page<Processo> findByStatusPageable(@Param("status") StatusProcesso status, Pageable pageable);
 	
+	@Query("SELECT p FROM Processo p WHERE p.comarca = :comarca")
+    Page<Processo> findByComarcaPageable(@Param("comarca") String comarca, Pageable pageable);
+	
 	Page<Processo> findAll(Pageable pageable);
 	
 }
