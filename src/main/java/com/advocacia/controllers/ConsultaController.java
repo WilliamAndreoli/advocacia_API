@@ -87,6 +87,7 @@ public class ConsultaController {
 	        );
 	    }
 	
+	
 	@GetMapping("/cliente/{nomecliente}")
 	public ResponseEntity<List<ConsultaDTO>> findAllConsultaCliente(@PathVariable String nomecliente) {
 		Optional<Cliente> verificaCliente = clienteService.findByNome(nomecliente);
@@ -107,6 +108,33 @@ public class ConsultaController {
 	    }).collect(Collectors.toList());
 	    
 	    return ResponseEntity.ok(consultaDTOs);
+	}
+	
+	@GetMapping("/id/{id}")
+	public ResponseEntity<ConsultaDTO> getConsultaById(@PathVariable Integer id) {
+	    Optional<Consulta> consultaOpt = consultaService.findById(id);
+
+	    if (consultaOpt.isEmpty()) {
+	        return ResponseEntity.notFound().build();
+	    }
+
+	    Consulta consulta = consultaOpt.get();
+	    ClienteDTO clienteDTO = new ClienteDTO(consulta.getCliente()); // Conversão do Cliente para ClienteDTO
+
+	    ConsultaDTO consultaDTO = new ConsultaDTO(
+	        consulta.getId(),
+	        consulta.getValor(),
+	        consulta.getData_marcada(),
+	        consulta.getData_realizada(),
+	        consulta.getPagamento(),
+	        consulta.getData_pagamento(),
+	        consulta.getMeio_pagamento(),
+	        consulta.getResumo(),
+	        consulta.getStatus(),
+	        clienteDTO // Passa o ClienteDTO no lugar do Cliente
+	    );
+
+	    return ResponseEntity.ok(consultaDTO);
 	}
 	
 	@PostMapping

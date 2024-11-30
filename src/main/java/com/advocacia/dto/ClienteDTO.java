@@ -13,6 +13,13 @@ public class ClienteDTO {
 		this.id = id;
 		this.nome = nome;
 	}
+	
+	public ClienteDTO(Cliente cliente) {
+        if (cliente != null) {
+            this.id = cliente.getId();
+            this.nome = cliente.getNome();
+        }
+    }
 
 	public Integer getId() {
 		return id;
