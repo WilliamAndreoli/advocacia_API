@@ -8,7 +8,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.advocacia.entities.Cliente;
 import com.advocacia.entities.Consulta;
+import com.advocacia.entities.Status;
+import com.advocacia.entities.StatusConsulta;
+import com.advocacia.exceptions.ConsultaErrorException;
 import com.advocacia.repositories.ConsultaRepository;
 
 @Service
@@ -40,6 +44,22 @@ public class ConsultaService {
 	public Page<Consulta> findAllPageable(Pageable pageable) {
         return consultaRepository.findAll(pageable);
     }
+	
+	public Consulta concluirConsulta(Integer id) {
+		
+		Optional<Consulta> consulta = consultaRepository.findById(id);
+		
+		Consulta existingConsulta = consulta.get();
+		
+		if (existingConsulta == null) {
+			throw new ConsultaErrorException("Consulta não encontrada com esse Id " + id);
+		}
+		
+		existingConsulta.setStatus(StatusConsulta.REALIZADA);
+		
+		Consulta savedConsulta = consultaRepository.save(existingConsulta);
+		return savedConsulta;
+	}
 	
 	//Implementar findByData
 	

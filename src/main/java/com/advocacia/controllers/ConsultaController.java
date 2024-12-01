@@ -194,6 +194,18 @@ public class ConsultaController {
 		return ResponseEntity.ok(consultaDTO);
 	}
 	
+	@PutMapping("/concluir/{id}")
+	public ResponseEntity<ConsultaDTO> concluirConsulta(@PathVariable Integer id) {
+		Consulta consulta = consultaService.concluirConsulta(id);
+		
+		ClienteDTO clienteDTO = new ClienteDTO(consulta.getCliente()); // Conversão do Cliente para ClienteDTO
+		
+		ConsultaDTO dto = new ConsultaDTO(consulta.getId(), consulta.getValor(), consulta.getData_marcada(), consulta.getData_realizada(), consulta.getPagamento(), consulta.getData_pagamento(), consulta.getMeio_pagamento(), consulta.getResumo(), consulta.getStatus(), clienteDTO);
+	
+		return ResponseEntity.ok(dto);
+		
+	}
+	
 	@DeleteMapping("/id/{id}")
     public ResponseEntity<Void> deleteConsultaById(@PathVariable Integer id) {
         Optional<Consulta> consulta = consultaService.findById(id);
