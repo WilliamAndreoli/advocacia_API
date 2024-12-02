@@ -20,14 +20,14 @@ public class ConsultaService {
 
 	@Autowired
 	private ConsultaRepository consultaRepository;
-	
+
 	public List<Consulta> findAll() {
 		return consultaRepository.findAll();
 	}
-	
+
 	public Consulta save(Consulta consulta) {
-        return consultaRepository.save(consulta);
-    }
+		return consultaRepository.save(consulta);
+	}
 
 	public Optional<Consulta> findById(Integer id) {
 		return consultaRepository.findById(id);
@@ -40,27 +40,37 @@ public class ConsultaService {
 	public void deleteById(Integer id) {
 		consultaRepository.deleteById(id);
 	}
-	
+
 	public Page<Consulta> findAllPageable(Pageable pageable) {
-        return consultaRepository.findAll(pageable);
-    }
-	
+		return consultaRepository.findAll(pageable);
+	}
+
 	public Consulta concluirConsulta(Integer id) {
-		
+
 		Optional<Consulta> consulta = consultaRepository.findById(id);
-		
+
 		Consulta existingConsulta = consulta.get();
-		
+
 		if (existingConsulta == null) {
 			throw new ConsultaErrorException("Consulta não encontrada com esse Id " + id);
 		}
-		
+
 		existingConsulta.setStatus(StatusConsulta.REALIZADA);
-		
+
 		Consulta savedConsulta = consultaRepository.save(existingConsulta);
 		return savedConsulta;
 	}
-	
-	//Implementar findByData
-	
+
+	public Consulta pagarConsulta(Consulta consultaDetails) {
+
+		Optional<Consulta> consulta = consultaRepository.findById(consultaDetails.getId());
+
+		Consulta consultaPaga = consultaDetails;
+
+		Consulta savedConsulta = consultaRepository.save(consultaPaga);
+		return savedConsulta;
+	}
+
+	// Implementar findByData
+
 }

@@ -197,10 +197,34 @@ public class ConsultaController {
 	@PutMapping("/concluir/{id}")
 	public ResponseEntity<ConsultaDTO> concluirConsulta(@PathVariable Integer id) {
 		Consulta consulta = consultaService.concluirConsulta(id);
-		
+			
 		ClienteDTO clienteDTO = new ClienteDTO(consulta.getCliente()); // Conversão do Cliente para ClienteDTO
 		
 		ConsultaDTO dto = new ConsultaDTO(consulta.getId(), consulta.getValor(), consulta.getData_marcada(), consulta.getData_realizada(), consulta.getPagamento(), consulta.getData_pagamento(), consulta.getMeio_pagamento(), consulta.getResumo(), consulta.getStatus(), clienteDTO);
+	
+		return ResponseEntity.ok(dto);
+		
+	}
+	
+	@PutMapping("/pagar/{id}")
+	public ResponseEntity<ConsultaDTO> pagarConsulta(@PathVariable Integer id, @RequestBody Consulta consultaDetais) {
+		Optional<Consulta> optConsulta = consultaService.findById(id);
+		
+		Consulta existingConsulta = optConsulta.get();
+		
+		if (existingConsulta == null) {
+			throw new ConsultaErrorException("Nenhuma consulta encontrada com o id: " + id);
+		}
+		
+		existingConsulta.setData_pagamento(consultaDetais.getData_pagamento());
+		existingConsulta.setPagamento(consultaDetais.getPagamento());
+		existingConsulta.setMeio_pagamento(consultaDetais.getMeio_pagamento());
+		
+		Consulta consulta = consultaService.pagarConsulta(existingConsulta);
+		
+		ClienteDTO clienteDTO = new ClienteDTO(existingConsulta.getCliente()); // Conversão do Cliente para ClienteDTO
+		
+		ConsultaDTO dto = new ConsultaDTO(existingConsulta.getId(), existingConsulta.getValor(), existingConsulta.getData_marcada(), existingConsulta.getData_realizada(), existingConsulta.getPagamento(), existingConsulta.getData_pagamento(), existingConsulta.getMeio_pagamento(), existingConsulta.getResumo(), existingConsulta.getStatus(), clienteDTO);
 	
 		return ResponseEntity.ok(dto);
 		
