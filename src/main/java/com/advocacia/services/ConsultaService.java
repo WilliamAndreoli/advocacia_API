@@ -36,6 +36,10 @@ public class ConsultaService {
 	public List<Consulta> findAllConsultaCliente(Integer idCliente) {
 		return consultaRepository.findAllConsultaCliente(idCliente);
 	}
+	
+	public Page<Consulta> findAllConsultaStatus(StatusConsulta status, Pageable pageable) {
+		return consultaRepository.findAllConsultaStatus(status, pageable);
+	}
 
 	public void deleteById(Integer id) {
 		consultaRepository.deleteById(id);
