@@ -26,10 +26,10 @@ public class ContatoController {
 			mensagem.setTo(contato.getEmail());
 			mensagem.setSubject("Confirmação de recebimento - Advocacia Andreoli");
 			mensagem.setText("Olá " + contato.getNome() + ",\n\nRecebemos sua mensagem com o assunto: "
-						+ contato.getAssunto() + ".\nNossa equipe entrará em contato em breve.\n\nAtenciosamente,\nAndreoli Advocacia.");
+						+ contato.getAssunto() + ".\nNossa equipe da Advocacia Andreoli entrará em contato em breve.\n\nAtenciosamente,\nAndreoli Advocacia.");
 			mailSender.send(mensagem);
 			
-			System.out.println("Email enviado para: " + contato.getEmail());
+			//System.out.println("Email enviado para: " + contato.getEmail());
 			
 			return ResponseEntity.ok("Email enviado com sucesso!");
 		} catch (Exception e) {

@@ -29,7 +29,13 @@ public class JwtUtils {
     private int jwtExpirationMs;
 
     public String generateTokenFromUserDetailsImplementation(UserDetailsImpl userDetails) {
-        return Jwts.builder()
+    	Date now = new Date();
+        Date expiration = new Date(now.getTime() + jwtExpirationMs);
+
+        System.out.println("Horário atual (UTC): " + now);
+        System.out.println("Horário de expiração calculado (UTC): " + expiration);
+    	
+    	return Jwts.builder()
                 .setSubject(userDetails.getUsername())
                 .claim("userName", userDetails.getUsername())
                 .claim("name", userDetails.getName())
