@@ -1,5 +1,6 @@
 package com.advocacia.repositories;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -20,5 +21,7 @@ public interface ConsultaRepository extends JpaRepository<Consulta, Integer> {
     Page<Consulta> findAllConsultaStatus(@Param("status") StatusConsulta status, Pageable pageable);
 	
 	Page<Consulta> findAll(Pageable pageable);
+	
+	boolean existsByDataMarcada(LocalDateTime dataMarcada);
 	
 }

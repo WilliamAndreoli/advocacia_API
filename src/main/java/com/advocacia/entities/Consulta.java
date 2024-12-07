@@ -1,11 +1,11 @@
 package com.advocacia.entities;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -23,7 +23,8 @@ public class Consulta {
 	private Double valor;
 	
 	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-	private LocalDateTime data_marcada;
+	@Column(name = "data_marcada")
+	private LocalDateTime dataMarcada;
 	
 	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
 	private LocalDateTime data_realizada;
@@ -50,7 +51,7 @@ public class Consulta {
 		super();
 		this.id = id;
 		this.valor = valor;
-		this.data_marcada = data_marcada;
+		this.dataMarcada = data_marcada;
 		this.data_realizada = data_realizada;
 		this.pagamento = pagamento;
 		this.data_pagamento = data_pagamento;
@@ -76,12 +77,12 @@ public class Consulta {
 		this.valor = valor;
 	}
 
-	public LocalDateTime getData_marcada() {
-		return data_marcada;
+	public LocalDateTime getDataMarcada() {
+		return dataMarcada;
 	}
 
-	public void setData_marcada(LocalDateTime data_marcada) {
-		this.data_marcada = data_marcada;
+	public void setDataMarcada(LocalDateTime dataMarcada) {
+		this.dataMarcada = dataMarcada;
 	}
 
 	public LocalDateTime getData_realizada() {

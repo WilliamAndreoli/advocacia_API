@@ -46,7 +46,7 @@ public class ConsultaController {
 		List<ConsultaDTO> consultaDTOs = consultas.stream().map(consulta -> {
 			Cliente cliente = consulta.getCliente();
 			ClienteDTO clienteDTO = new ClienteDTO(cliente.getId(), cliente.getNome());
-			return new ConsultaDTO(consulta.getId(), consulta.getValor(), consulta.getData_marcada(),
+			return new ConsultaDTO(consulta.getId(), consulta.getValor(), consulta.getDataMarcada(),
 					consulta.getData_realizada(), consulta.getPagamento(), consulta.getData_pagamento(),
 					consulta.getMeio_pagamento(), consulta.getResumo(), consulta.getStatus(), clienteDTO);
 		}).collect(Collectors.toList());
@@ -62,7 +62,7 @@ public class ConsultaController {
 			Cliente cliente = consulta.getCliente();
 			ClienteDTO clienteDTO = new ClienteDTO(cliente.getId(), cliente.getNome());
 
-			return new ConsultaDTO(consulta.getId(), consulta.getValor(), consulta.getData_marcada(),
+			return new ConsultaDTO(consulta.getId(), consulta.getValor(), consulta.getDataMarcada(),
 					consulta.getData_realizada(), consulta.getPagamento(), consulta.getData_pagamento(),
 					consulta.getMeio_pagamento(), consulta.getResumo(), consulta.getStatus(), clienteDTO);
 		}).collect(Collectors.toList());
@@ -84,7 +84,7 @@ public class ConsultaController {
 		List<ConsultaDTO> consultaDTOs = consultas.stream().map(consulta -> {
 			Cliente cliente = consulta.getCliente(); // Supondo que você tenha um método getCliente()
 			ClienteDTO clienteDTO = new ClienteDTO(cliente.getId(), cliente.getNome());
-			return new ConsultaDTO(consulta.getId(), consulta.getValor(), consulta.getData_marcada(),
+			return new ConsultaDTO(consulta.getId(), consulta.getValor(), consulta.getDataMarcada(),
 					consulta.getData_realizada(), consulta.getPagamento(), consulta.getData_pagamento(),
 					consulta.getMeio_pagamento(), consulta.getResumo(), consulta.getStatus(), clienteDTO);
 		}).collect(Collectors.toList());
@@ -104,7 +104,7 @@ public class ConsultaController {
 				Cliente cliente = consulta.getCliente();
 				ClienteDTO clienteDTO = new ClienteDTO(cliente.getId(), cliente.getNome());
 
-				return new ConsultaDTO(consulta.getId(), consulta.getValor(), consulta.getData_marcada(),
+				return new ConsultaDTO(consulta.getId(), consulta.getValor(), consulta.getDataMarcada(),
 						consulta.getData_realizada(), consulta.getPagamento(), consulta.getData_pagamento(),
 						consulta.getMeio_pagamento(), consulta.getResumo(), consulta.getStatus(), clienteDTO);
 			}).collect(Collectors.toList());
@@ -121,7 +121,7 @@ public class ConsultaController {
 				Cliente cliente = consulta.getCliente();
 				ClienteDTO clienteDTO = new ClienteDTO(cliente.getId(), cliente.getNome());
 
-				return new ConsultaDTO(consulta.getId(), consulta.getValor(), consulta.getData_marcada(),
+				return new ConsultaDTO(consulta.getId(), consulta.getValor(), consulta.getDataMarcada(),
 						consulta.getData_realizada(), consulta.getPagamento(), consulta.getData_pagamento(),
 						consulta.getMeio_pagamento(), consulta.getResumo(), consulta.getStatus(), clienteDTO);
 			}).collect(Collectors.toList());
@@ -143,7 +143,7 @@ public class ConsultaController {
 		Consulta consulta = consultaOpt.get();
 		ClienteDTO clienteDTO = new ClienteDTO(consulta.getCliente()); // Conversão do Cliente para ClienteDTO
 
-		ConsultaDTO consultaDTO = new ConsultaDTO(consulta.getId(), consulta.getValor(), consulta.getData_marcada(),
+		ConsultaDTO consultaDTO = new ConsultaDTO(consulta.getId(), consulta.getValor(), consulta.getDataMarcada(),
 				consulta.getData_realizada(), consulta.getPagamento(), consulta.getData_pagamento(),
 				consulta.getMeio_pagamento(), consulta.getResumo(), consulta.getStatus(), clienteDTO // Passa o
 																										// ClienteDTO no
@@ -162,6 +162,11 @@ public class ConsultaController {
 		if (cliente == null) {
 			throw new ConsultaErrorException("Cliente não encontrado com o CPF: " + consulta.getCliente().getCpf());
 		}
+		
+		boolean isDataOcupada = consultaService.existsByData_marcada(consulta.getDataMarcada());
+	    if (isDataOcupada) {
+	        throw new ConsultaErrorException("Já existe uma consulta marcada para a data e horário: " + consulta.getDataMarcada());
+	    }
 
 		consulta.setCliente(cliente);
 
@@ -170,7 +175,7 @@ public class ConsultaController {
 		ClienteDTO clienteDTO = new ClienteDTO(cliente.getId(), cliente.getNome());
 
 		ConsultaDTO consultaDto = new ConsultaDTO(novaConsulta.getId(), novaConsulta.getValor(),
-				novaConsulta.getData_marcada(), novaConsulta.getData_realizada(), novaConsulta.getPagamento(),
+				novaConsulta.getDataMarcada(), novaConsulta.getData_realizada(), novaConsulta.getPagamento(),
 				novaConsulta.getData_pagamento(), novaConsulta.getMeio_pagamento(), novaConsulta.getResumo(),
 				novaConsulta.getStatus(), clienteDTO);
 
@@ -189,7 +194,7 @@ public class ConsultaController {
 		Consulta existingConsulta = consulta.get();
 
 		existingConsulta.setValor(consultaDetails.getValor());
-		existingConsulta.setData_marcada(consultaDetails.getData_marcada());
+		existingConsulta.setDataMarcada(consultaDetails.getDataMarcada());
 		existingConsulta.setData_realizada(consultaDetails.getData_realizada());
 		existingConsulta.setData_pagamento(consultaDetails.getData_pagamento());
 		existingConsulta.setMeio_pagamento(consultaDetails.getMeio_pagamento());
@@ -208,7 +213,7 @@ public class ConsultaController {
 		ClienteDTO clienteDTO = new ClienteDTO(cliente.getId(), cliente.getNome());
 
 		ConsultaDTO consultaDTO = new ConsultaDTO(updatedConsulta.getId(), updatedConsulta.getValor(),
-				updatedConsulta.getData_marcada(), updatedConsulta.getData_realizada(), updatedConsulta.getPagamento(),
+				updatedConsulta.getDataMarcada(), updatedConsulta.getData_realizada(), updatedConsulta.getPagamento(),
 				updatedConsulta.getData_pagamento(), updatedConsulta.getMeio_pagamento(), updatedConsulta.getResumo(),
 				updatedConsulta.getStatus(), clienteDTO);
 
@@ -221,7 +226,7 @@ public class ConsultaController {
 
 		ClienteDTO clienteDTO = new ClienteDTO(consulta.getCliente()); // Conversão do Cliente para ClienteDTO
 
-		ConsultaDTO dto = new ConsultaDTO(consulta.getId(), consulta.getValor(), consulta.getData_marcada(),
+		ConsultaDTO dto = new ConsultaDTO(consulta.getId(), consulta.getValor(), consulta.getDataMarcada(),
 				consulta.getData_realizada(), consulta.getPagamento(), consulta.getData_pagamento(),
 				consulta.getMeio_pagamento(), consulta.getResumo(), consulta.getStatus(), clienteDTO);
 
@@ -248,7 +253,7 @@ public class ConsultaController {
 		ClienteDTO clienteDTO = new ClienteDTO(existingConsulta.getCliente()); // Conversão do Cliente para ClienteDTO
 
 		ConsultaDTO dto = new ConsultaDTO(existingConsulta.getId(), existingConsulta.getValor(),
-				existingConsulta.getData_marcada(), existingConsulta.getData_realizada(),
+				existingConsulta.getDataMarcada(), existingConsulta.getData_realizada(),
 				existingConsulta.getPagamento(), existingConsulta.getData_pagamento(),
 				existingConsulta.getMeio_pagamento(), existingConsulta.getResumo(), existingConsulta.getStatus(),
 				clienteDTO);

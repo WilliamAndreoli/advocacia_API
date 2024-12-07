@@ -1,5 +1,6 @@
 package com.advocacia.services;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,9 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.advocacia.entities.Cliente;
 import com.advocacia.entities.Consulta;
-import com.advocacia.entities.Status;
 import com.advocacia.entities.StatusConsulta;
 import com.advocacia.exceptions.ConsultaErrorException;
 import com.advocacia.repositories.ConsultaRepository;
@@ -75,6 +74,10 @@ public class ConsultaService {
 		return savedConsulta;
 	}
 
+	public boolean existsByData_marcada(LocalDateTime dataMarcada) {
+        return consultaRepository.existsByDataMarcada(dataMarcada);
+    }
+	
 	// Implementar findByData
 
 }
