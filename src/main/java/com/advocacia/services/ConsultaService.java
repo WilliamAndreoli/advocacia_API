@@ -63,6 +63,21 @@ public class ConsultaService {
 		Consulta savedConsulta = consultaRepository.save(existingConsulta);
 		return savedConsulta;
 	}
+	
+	public Consulta tornarConsultaInativa(Integer id) {
+		Optional<Consulta> consulta = consultaRepository.findById(id);
+
+		Consulta existingConsulta = consulta.get();
+
+		if (existingConsulta == null) {
+			throw new ConsultaErrorException("Consulta não encontrada com esse Id " + id);
+		}
+		
+		existingConsulta.setStatusAI("INATIVO");
+		
+		Consulta savedConsulta = consultaRepository.save(existingConsulta);
+		return savedConsulta;
+	}
 
 	public Consulta pagarConsulta(Consulta consultaDetails) {
 

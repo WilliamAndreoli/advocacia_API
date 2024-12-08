@@ -131,6 +131,20 @@ public class ConsultaController {
 		
 		return null;
 	}
+	
+	@PutMapping("/inativar/{id}")
+	public ResponseEntity<ConsultaDTO> tornarConsultaInativa(@PathVariable Integer id) {
+		Consulta consulta = consultaService.tornarConsultaInativa(id);
+
+		ClienteDTO clienteDTO = new ClienteDTO(consulta.getCliente()); // Conversão do Cliente para ClienteDTO
+
+		ConsultaDTO dto = new ConsultaDTO(consulta.getId(), consulta.getValor(), consulta.getDataMarcada(),
+				consulta.getData_realizada(), consulta.getPagamento(), consulta.getData_pagamento(),
+				consulta.getMeio_pagamento(), consulta.getResumo(), consulta.getStatus(), consulta.getStatusAI(), clienteDTO);
+
+		return ResponseEntity.ok(dto);
+
+	}
 
 	@GetMapping("/id/{id}")
 	public ResponseEntity<ConsultaDTO> getConsultaById(@PathVariable Integer id) {
