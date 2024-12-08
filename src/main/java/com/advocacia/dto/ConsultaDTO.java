@@ -18,10 +18,11 @@ public class ConsultaDTO {
 	private String meioPagamento;
 	private String resumo;
 	private StatusConsulta status;
+	private String statusAI;
 	private ClienteDTO cliente;
 
 	public ConsultaDTO(Integer id, Double valor, LocalDateTime dataMarcada, LocalDateTime dataRealizada, String pagamento,
-			LocalDateTime dataPagamento, String meioPagamento, String resumo, StatusConsulta status, ClienteDTO cliente) {
+			LocalDateTime dataPagamento, String meioPagamento, String resumo, StatusConsulta status, String statusAI, ClienteDTO cliente) {
 		this.id = id;
 		this.valor = valor;
 		this.dataMarcada = dataMarcada;
@@ -31,6 +32,7 @@ public class ConsultaDTO {
 		this.meioPagamento = meioPagamento;
 		this.resumo = resumo;
 		this.status = status;
+		this.statusAI = statusAI;
 		this.cliente = cliente;
 	}
 
@@ -106,6 +108,15 @@ public class ConsultaDTO {
 
 	public void setStatus(StatusConsulta status) {
 		this.status = status;
+	}
+
+	public String getStatusAI() {
+		return statusAI;
+	}
+
+
+	public void setStatusAI(String statusAI) {
+		this.statusAI = statusAI;
 	}
 
 

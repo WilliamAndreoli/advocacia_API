@@ -40,6 +40,8 @@ public class Consulta {
 	
 	private StatusConsulta status = StatusConsulta.PENDENTE;
 	
+	private String statusAI = "ATIVO";
+	
 	@OneToOne
 	@JoinColumn(name = "cliente_id")
 	private Cliente cliente;
@@ -47,7 +49,7 @@ public class Consulta {
 	public Consulta() {}
 
 	public Consulta(Integer id, Double valor, LocalDateTime data_marcada, LocalDateTime data_realizada, String pagamento,
-			LocalDateTime data_pagamento, String meio_pagamento, String resumo, StatusConsulta status, Cliente cliente) {
+			LocalDateTime data_pagamento, String meio_pagamento, String resumo, StatusConsulta status, String statusAI, Cliente cliente) {
 		super();
 		this.id = id;
 		this.valor = valor;
@@ -58,6 +60,7 @@ public class Consulta {
 		this.meio_pagamento = meio_pagamento;
 		this.resumo = resumo;
 		this.status = status;
+		this.statusAI = statusAI;
 		this.cliente = cliente;
 	}
 
@@ -119,6 +122,14 @@ public class Consulta {
 
 	public StatusConsulta getStatus() {
 		return status;
+	}
+
+	public String getStatusAI() {
+		return statusAI;
+	}
+
+	public void setStatusAI(String statusAI) {
+		this.statusAI = statusAI;
 	}
 
 	public void setStatus(StatusConsulta status) {

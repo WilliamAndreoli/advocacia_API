@@ -48,7 +48,7 @@ public class ConsultaController {
 			ClienteDTO clienteDTO = new ClienteDTO(cliente.getId(), cliente.getNome());
 			return new ConsultaDTO(consulta.getId(), consulta.getValor(), consulta.getDataMarcada(),
 					consulta.getData_realizada(), consulta.getPagamento(), consulta.getData_pagamento(),
-					consulta.getMeio_pagamento(), consulta.getResumo(), consulta.getStatus(), clienteDTO);
+					consulta.getMeio_pagamento(), consulta.getResumo(), consulta.getStatus(), consulta.getStatusAI(), clienteDTO);
 		}).collect(Collectors.toList());
 
 		return ResponseEntity.ok(consultaDTOs);
@@ -64,7 +64,7 @@ public class ConsultaController {
 
 			return new ConsultaDTO(consulta.getId(), consulta.getValor(), consulta.getDataMarcada(),
 					consulta.getData_realizada(), consulta.getPagamento(), consulta.getData_pagamento(),
-					consulta.getMeio_pagamento(), consulta.getResumo(), consulta.getStatus(), clienteDTO);
+					consulta.getMeio_pagamento(), consulta.getResumo(), consulta.getStatus(), consulta.getStatusAI(), clienteDTO);
 		}).collect(Collectors.toList());
 
 		return new PageImpl<>(consultaDTOList, pageable, consultas.getTotalElements());
@@ -86,7 +86,7 @@ public class ConsultaController {
 			ClienteDTO clienteDTO = new ClienteDTO(cliente.getId(), cliente.getNome());
 			return new ConsultaDTO(consulta.getId(), consulta.getValor(), consulta.getDataMarcada(),
 					consulta.getData_realizada(), consulta.getPagamento(), consulta.getData_pagamento(),
-					consulta.getMeio_pagamento(), consulta.getResumo(), consulta.getStatus(), clienteDTO);
+					consulta.getMeio_pagamento(), consulta.getResumo(), consulta.getStatus(), consulta.getStatusAI(), clienteDTO);
 		}).collect(Collectors.toList());
 
 		return ResponseEntity.ok(consultaDTOs);
@@ -106,7 +106,7 @@ public class ConsultaController {
 
 				return new ConsultaDTO(consulta.getId(), consulta.getValor(), consulta.getDataMarcada(),
 						consulta.getData_realizada(), consulta.getPagamento(), consulta.getData_pagamento(),
-						consulta.getMeio_pagamento(), consulta.getResumo(), consulta.getStatus(), clienteDTO);
+						consulta.getMeio_pagamento(), consulta.getResumo(), consulta.getStatus(), consulta.getStatusAI(), clienteDTO);
 			}).collect(Collectors.toList());
 
 			return new PageImpl<>(consultaDTOList, pageable, consultas.getTotalElements());
@@ -123,7 +123,7 @@ public class ConsultaController {
 
 				return new ConsultaDTO(consulta.getId(), consulta.getValor(), consulta.getDataMarcada(),
 						consulta.getData_realizada(), consulta.getPagamento(), consulta.getData_pagamento(),
-						consulta.getMeio_pagamento(), consulta.getResumo(), consulta.getStatus(), clienteDTO);
+						consulta.getMeio_pagamento(), consulta.getResumo(), consulta.getStatus(), consulta.getStatusAI(), clienteDTO);
 			}).collect(Collectors.toList());
 
 			return new PageImpl<>(consultaDTOList, pageable, consultas.getTotalElements());
@@ -145,7 +145,7 @@ public class ConsultaController {
 
 		ConsultaDTO consultaDTO = new ConsultaDTO(consulta.getId(), consulta.getValor(), consulta.getDataMarcada(),
 				consulta.getData_realizada(), consulta.getPagamento(), consulta.getData_pagamento(),
-				consulta.getMeio_pagamento(), consulta.getResumo(), consulta.getStatus(), clienteDTO // Passa o
+				consulta.getMeio_pagamento(), consulta.getResumo(), consulta.getStatus(), consulta.getStatusAI(), clienteDTO // Passa o
 																										// ClienteDTO no
 																										// lugar do
 																										// Cliente
@@ -176,8 +176,8 @@ public class ConsultaController {
 
 		ConsultaDTO consultaDto = new ConsultaDTO(novaConsulta.getId(), novaConsulta.getValor(),
 				novaConsulta.getDataMarcada(), novaConsulta.getData_realizada(), novaConsulta.getPagamento(),
-				novaConsulta.getData_pagamento(), novaConsulta.getMeio_pagamento(), novaConsulta.getResumo(),
-				novaConsulta.getStatus(), clienteDTO);
+				novaConsulta.getData_pagamento(), novaConsulta.getMeio_pagamento(), novaConsulta.getResumo(), 
+				novaConsulta.getStatus(), novaConsulta.getStatusAI(), clienteDTO);
 
 		return ResponseEntity.ok(consultaDto);
 	}
@@ -215,7 +215,7 @@ public class ConsultaController {
 		ConsultaDTO consultaDTO = new ConsultaDTO(updatedConsulta.getId(), updatedConsulta.getValor(),
 				updatedConsulta.getDataMarcada(), updatedConsulta.getData_realizada(), updatedConsulta.getPagamento(),
 				updatedConsulta.getData_pagamento(), updatedConsulta.getMeio_pagamento(), updatedConsulta.getResumo(),
-				updatedConsulta.getStatus(), clienteDTO);
+				updatedConsulta.getStatus(), updatedConsulta.getStatusAI(), clienteDTO);
 
 		return ResponseEntity.ok(consultaDTO);
 	}
@@ -228,7 +228,7 @@ public class ConsultaController {
 
 		ConsultaDTO dto = new ConsultaDTO(consulta.getId(), consulta.getValor(), consulta.getDataMarcada(),
 				consulta.getData_realizada(), consulta.getPagamento(), consulta.getData_pagamento(),
-				consulta.getMeio_pagamento(), consulta.getResumo(), consulta.getStatus(), clienteDTO);
+				consulta.getMeio_pagamento(), consulta.getResumo(), consulta.getStatus(), consulta.getStatusAI(), clienteDTO);
 
 		return ResponseEntity.ok(dto);
 
@@ -255,7 +255,7 @@ public class ConsultaController {
 		ConsultaDTO dto = new ConsultaDTO(existingConsulta.getId(), existingConsulta.getValor(),
 				existingConsulta.getDataMarcada(), existingConsulta.getData_realizada(),
 				existingConsulta.getPagamento(), existingConsulta.getData_pagamento(),
-				existingConsulta.getMeio_pagamento(), existingConsulta.getResumo(), existingConsulta.getStatus(),
+				existingConsulta.getMeio_pagamento(), existingConsulta.getResumo(), existingConsulta.getStatus(), existingConsulta.getStatusAI(),
 				clienteDTO);
 
 		return ResponseEntity.ok(dto);
