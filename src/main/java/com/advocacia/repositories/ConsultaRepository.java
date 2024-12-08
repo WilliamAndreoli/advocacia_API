@@ -17,9 +17,10 @@ public interface ConsultaRepository extends JpaRepository<Consulta, Integer> {
 	@Query("SELECT c FROM Consulta c WHERE c.cliente.id = :clienteId")
     List<Consulta> findAllConsultaCliente(@Param("clienteId") Integer clienteId);
 
-	@Query("SELECT c FROM Consulta c WHERE c.status = :status")
+	@Query("SELECT c FROM Consulta c WHERE c.status = :status AND c.statusAI = 'ATIVO'")
     Page<Consulta> findAllConsultaStatus(@Param("status") StatusConsulta status, Pageable pageable);
 	
+	@Query("SELECT c FROM Consulta c WHERE c.statusAI = 'ATIVO'")
 	Page<Consulta> findAll(Pageable pageable);
 	
 	boolean existsByDataMarcada(LocalDateTime dataMarcada);
